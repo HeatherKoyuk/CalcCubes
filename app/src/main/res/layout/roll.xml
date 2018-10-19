@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:layout_editor_absoluteY="25dp">
+
+    <ImageView
+        android:id="@+id/die1"
+        android:layout_width="wrap_content"
+        android:layout_height="89dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toStartOf="@+id/die2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/dice3droll" />
+
+    <ImageView
+        android:id="@+id/die2"
+        android:layout_width="wrap_content"
+        android:layout_height="89dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/dice3droll" />
+
+    <ImageView
+        android:id="@+id/die3"
+        android:layout_width="wrap_content"
+        android:layout_height="89dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toEndOf="@+id/die2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/dice3droll" />
+
+    <TextView
+        android:id="@+id/die1Text"
+        android:layout_width="80dp"
+        android:layout_height="46dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toStartOf="@+id/die2Text"
+        app:layout_constraintTop_toBottomOf="@+id/die1" />
+
+    <TextView
+        android:id="@+id/die2Text"
+        android:layout_width="80dp"
+        android:layout_height="46dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/die2" />
+
+    <TextView
+        android:id="@+id/die3Text"
+        android:layout_width="80dp"
+        android:layout_height="46dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:textSize="22sp"
+        app:layout_constraintStart_toEndOf="@+id/die2Text"
+        app:layout_constraintTop_toBottomOf="@+id/die3" />
+
+    <TextView
+        android:id="@+id/text1"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="32dp"
+        android:gravity="right|center"
+        android:text="Target:"
+        app:layout_constraintEnd_toStartOf="@+id/targetText"
+        app:layout_constraintTop_toBottomOf="@+id/die1Text" />
+
+    <TextView
+        android:id="@+id/targetText"
+        android:layout_width="80dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="20dp"
+        android:gravity="left|center"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/die2Text" />
+
+    <Button
+        android:id="@+id/rollButton"
+        android:layout_width="94dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="46dp"
+        android:layout_marginRight="46dp"
+        android:layout_marginTop="20dp"
+        android:text="Roll!"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/die3Text" />
+
+    <CheckBox
+        android:id="@+id/checkShowAnswers"
+        android:layout_width="92dp"
+        android:layout_height="25dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
+        android:text="Solutions"
+        app:layout_constraintBottom_toTopOf="@+id/scrollListView"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <TextView
+        android:id="@+id/differenceText"
+        android:layout_width="wrap_content"
+        android:layout_height="22dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginRight="60dp"
+        android:text="Difference"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/scrollListView"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/scrollListView"
+        android:layout_width="359dp"
+        android:layout_height="323dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/targetText"
+        tools:foreground="@color/black_overlay">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/answerListView"
+            android:layout_marginBottom="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>

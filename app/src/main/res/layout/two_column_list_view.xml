@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:columnCount="3">
+    <TextView
+        android:textSize="20sp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:text="Solution"
+        android:layout_columnWeight="2"
+        android:layout_columnSpan="2"
+        android:id="@+id/textSolution"/>
+    <TextView
+        android:textColor="@android:color/holo_red_light"
+        android:textSize="20sp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|end|fill_horizontal"
+        android:layout_marginTop="5dp"
+        android:text="Diff"
+        android:layout_columnWeight="1"
+        android:id="@+id/textAbsoluteDifference"/>
+
+</GridLayout>
