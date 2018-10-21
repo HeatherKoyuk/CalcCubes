@@ -7,156 +7,115 @@
     android:layout_height="match_parent"
     tools:layout_editor_absoluteY="25dp">
 
-    <ImageView
-        android:id="@+id/die1"
-        android:layout_width="wrap_content"
-        android:layout_height="89dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintEnd_toStartOf="@+id/die2"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/dice3droll" />
-
-    <ImageView
-        android:id="@+id/die2"
-        android:layout_width="wrap_content"
-        android:layout_height="89dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/diceView"
+        android:layout_marginTop="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/dice3droll" />
-
-    <ImageView
-        android:id="@+id/die3"
-        android:layout_width="wrap_content"
-        android:layout_height="89dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintStart_toEndOf="@+id/die2"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/dice3droll" />
-
-    <TextView
-        android:id="@+id/die1Text"
-        android:layout_width="80dp"
-        android:layout_height="46dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:textSize="22sp"
-        app:layout_constraintEnd_toStartOf="@+id/die2Text"
-        app:layout_constraintTop_toBottomOf="@+id/die1" />
-
-    <TextView
-        android:id="@+id/die2Text"
-        android:layout_width="80dp"
-        android:layout_height="46dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/die2" />
+        app:layout_constraintRight_toRightOf="parent"/>
 
     <TextView
-        android:id="@+id/die3Text"
-        android:layout_width="80dp"
-        android:layout_height="46dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:textSize="22sp"
-        app:layout_constraintStart_toEndOf="@+id/die2Text"
-        app:layout_constraintTop_toBottomOf="@+id/die3" />
-
-    <TextView
-        android:id="@+id/text1"
+        android:id="@+id/targetTextLabel"
         android:layout_width="wrap_content"
         android:layout_height="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="32dp"
         android:gravity="right|center"
         android:text="Target:"
-        app:layout_constraintEnd_toStartOf="@+id/targetText"
-        app:layout_constraintTop_toBottomOf="@+id/die1Text" />
+        app:layout_constraintTop_toBottomOf="@+id/diceView"
+        app:layout_constraintStart_toStartOf="parent"
+        />
 
     <TextView
         android:id="@+id/targetText"
         android:layout_width="80dp"
         android:layout_height="46dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
         android:gravity="left|center"
         android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/die2Text" />
+        app:layout_constraintTop_toBottomOf="@+id/diceView"
+        app:layout_constraintStart_toEndOf="@+id/targetTextLabel" />
 
     <Button
         android:id="@+id/rollButton"
         android:layout_width="94dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="46dp"
-        android:layout_marginRight="46dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="8dp"
         android:text="Roll!"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/die3Text" />
+        app:layout_constraintTop_toBottomOf="@+id/diceView"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <CheckBox
         android:id="@+id/checkShowAnswers"
         android:layout_width="92dp"
         android:layout_height="25dp"
         android:layout_marginLeft="24dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
         android:text="Solutions"
-        app:layout_constraintBottom_toTopOf="@+id/scrollListView"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rollButton" />
 
 
     <TextView
         android:id="@+id/differenceText"
         android:layout_width="wrap_content"
         android:layout_height="22dp"
-        android:layout_marginEnd="60dp"
-        android:layout_marginRight="60dp"
+        android:layout_marginEnd="56dp"
+        android:layout_marginRight="56dp"
+        android:layout_marginTop="12dp"
         android:text="Difference"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/scrollListView"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/rollButton"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/scrollListView"
-        android:layout_width="359dp"
-        android:layout_height="323dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.52"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="0dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/targetText"
-        tools:foreground="@color/black_overlay">
+        app:layout_constraintTop_toBottomOf="@+id/differenceText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/answerListView"
-            android:layout_marginBottom="12dp"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:foreground="@color/black_overlay">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/answerListView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginEnd="0dp"
+                android:background="#F0F0F0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </android.support.constraint.ConstraintLayout>
     </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

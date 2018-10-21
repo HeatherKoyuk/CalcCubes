@@ -26,13 +26,8 @@ import android.view.ViewGroup
 import android.view.View.OnLayoutChangeListener
 import android.support.v7.widget.LinearLayoutManager
 import android.R.attr.data
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
-
-
-
-
-
-
 
 
 /**
@@ -41,20 +36,18 @@ import android.support.v7.widget.RecyclerView
  **/
 class Roll : AppCompatActivity() {
     // TODO: make this a setting
-    var numOfDice = 3
+    var numOfDice = 5
     var targetMax = 144
+    var showPlusMinus = false
+    var cutoff = 10000
 
-    lateinit var diceImages: List<ImageView>
-    lateinit var diceText: List<TextView>
-
+    lateinit var die: MutableList<Die>
     lateinit var equations: ArrayList<Equation>
     lateinit var answers : ArrayList<Answer>
     lateinit var infinites : ArrayList<Answer>
     lateinit var nans : ArrayList<Answer>
 
     var operations : ArrayList<String> = arrayListOf("+", "-", "*", "/", "^", "~")
-
-    var showPlusMinus = false
 
     var rnd = Random()
     var diceSound: SoundPool? = null
@@ -66,6 +59,8 @@ class Roll : AppCompatActivity() {
     var target = 0
     var baseline = 0
 
+    lateinit var gLayout : GridLayoutManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.roll)
@@ -73,13 +68,45 @@ class Roll : AppCompatActivity() {
         rollButton!!.setOnClickListener(HandleClick())
         //link handler to callback
         handler = Handler(callback)
+        die = mutableListOf()
+        answers = arrayListOf()
+        for (i in 0 until numOfDice) {
+            die.add(Die(0))
+        }
+        // TODO: Calculate span
+        //var span =
+        val recyclerView = findViewById(R.id.diceView) as RecyclerView
+        val adapter = DiceRecyclerViewAdapter(die)
+        recyclerView.adapter = adapter
+        if(numOfDice % 3 == 0) {
+            gLayout = GridLayoutManager(this, 3)
+        }
+        else if(numOfDice % 2 == 0) {
+            gLayout = GridLayoutManager(this, 2)
+        }
+        else{
+            gLayout = GridLayoutManager(this, 6)
+            gLayout.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int {
+                    when (position % 5) {
+                        0 -> return 2
+                        1 -> return 2
+                        2 -> return 2
+                        3 -> return 3
+                        4 -> return 3
+                        else -> return -1
+                    }
+                }
+            }
+        }
+        recyclerView.layoutManager = gLayout
 
-        diceImages = listOf(die1, die2, die3)
-        diceText = listOf(die1Text, die2Text, die3Text)
         checkShowAnswers.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked){
                 scrollListView.visibility = View.VISIBLE
-                differenceText.visibility = View.VISIBLE
+                if(answers.count() > 0) {
+                    differenceText.visibility = View.VISIBLE
+                }
             }
             else{
                 scrollListView.visibility = View.INVISIBLE
@@ -93,9 +120,9 @@ class Roll : AppCompatActivity() {
         override fun onClick(arg0: View) {
             if (!rolling) {
                 rolling = true
-                diceImages.forEach {
-                    it!!.setImageResource(R.drawable.dice3droll)
-                }
+                //diceImages.forEach {
+                //    it!!.setImageResource(R.drawable.dice3droll)
+                //}
                 //Start rolling sound
  //               diceSound!!.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f)
                 //Pause to allow image to update
@@ -144,12 +171,13 @@ class Roll : AppCompatActivity() {
             nans = ArrayList(10)
             infinites = ArrayList(10)
             answerListView.adapter = null
+            die.clear()
             //Get roll result
-            for (i in 0 until diceImages.size) {
-                var die = rnd.nextInt(6) + 1
-                baseline += die
-                setDieImage(diceImages[i]!!, diceText[i]!!, die)
-                equations.add(SimpleNumber(die))
+            for (i in 0 until numOfDice) {
+                var oneDie = rnd.nextInt(6) + 1
+                baseline += oneDie
+                die.add(Die(oneDie))
+                equations.add(SimpleNumber(oneDie))
             }
             target = rnd.nextInt(targetMax) + 1
             targetText!!.text = (target).toString()
@@ -158,6 +186,9 @@ class Roll : AppCompatActivity() {
             // TODO: in separate thread ("Only the original thread that created a view hierarchy can touch its views.")
             //thread { findAnswers() }
             findAnswers()
+            if(checkShowAnswers.isChecked) {
+                differenceText.visibility = View.VISIBLE
+            }
             return true
         }
     }
@@ -213,7 +244,7 @@ class Roll : AppCompatActivity() {
                 results.add(RootOf(restResults[i], equationStart))
             }
         }
-        return results.distinctBy { it.solution }
+        return results.filter{it.solution <= cutoff}.distinctBy { it.equation }
     }
     private fun computeTwo(dice: ArrayList<Equation>) : List<Equation>{
         var die0 = dice[0]
@@ -233,7 +264,7 @@ class Roll : AppCompatActivity() {
             results.add(PowerOf(die1, die0))
             results.add(RootOf(die1, die0))
         }
-        return results.distinctBy { it.solution }
+        return results.filter{it.solution <= cutoff}.distinctBy { it.equation }
     }
 
     private fun addToList(equation: Equation) {
@@ -254,17 +285,6 @@ class Roll : AppCompatActivity() {
 
 
 
-    private fun setDieImage(img: ImageView, txt: TextView, random: Int){
-        when (random) {
-            1 -> img.setImageResource(R.drawable.one)
-            2 -> img.setImageResource(R.drawable.two)
-            3 -> img.setImageResource(R.drawable.three)
-            4 -> img.setImageResource(R.drawable.four)
-            5 -> img.setImageResource(R.drawable.five)
-            6 -> img.setImageResource(R.drawable.six)
-        }
-        txt.text = (random).toString()
-    }
 
     //Clean up
     override fun onPause() {
