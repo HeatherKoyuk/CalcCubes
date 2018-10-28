@@ -12,9 +12,18 @@ import android.text.style.SuperscriptSpan
 import android.text.SpannableStringBuilder
 import android.widget.ImageView
 import android.widget.TextView
+import android.support.v7.widget.helper.ItemTouchHelper.Callback.makeMovementFlags
+import android.support.v7.widget.helper.ItemTouchHelper
+import android.R.attr.data
+import android.graphics.Color
+import java.util.Collections.swap
 
 
-class DiceRecyclerViewAdapter(list: MutableList<Die>) : RecyclerView.Adapter<DieViewHolder>() {
+
+
+
+
+class DiceRecyclerViewAdapter(list: MutableList<Die>)  : RecyclerView.Adapter<DieViewHolder>(), ItemMoveCallback.ItemTouchHelperContract {
 
     var list = mutableListOf<Die>()
     init {
@@ -49,6 +58,12 @@ class DiceRecyclerViewAdapter(list: MutableList<Die>) : RecyclerView.Adapter<Die
         super.onAttachedToRecyclerView(recyclerView)
     }
 
+    fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
+        val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
+        val swipeFlags = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        return makeMovementFlags(dragFlags, swipeFlags)
+    }
+
     // Insert a new item to the RecyclerView on a predefined position
     fun insert(position: Int, data: Die) {
         list.add(position, data)
@@ -62,6 +77,25 @@ class DiceRecyclerViewAdapter(list: MutableList<Die>) : RecyclerView.Adapter<Die
         notifyItemRemoved(position)
     }
 
+    override fun onRowMoved(fromPosition: Int, toPosition: Int) {
+        if (fromPosition < toPosition) {
+            for (i in fromPosition until toPosition) {
+                Collections.swap(list, i, i + 1)
+            }
+        } else {
+            for (i in fromPosition downTo toPosition + 1) {
+                Collections.swap(list, i, i - 1)
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition)
+    }
+
+    override fun onRowSelected(myViewHolder: DieViewHolder) {
+    }
+
+    override fun onRowClear(myViewHolder: DieViewHolder) {
+    }
+
     private fun setDieImage(img: ImageView, random: Int){
         when (random) {
             0 -> img.setImageResource(R.drawable.dice3droll)
@@ -73,5 +107,4 @@ class DiceRecyclerViewAdapter(list: MutableList<Die>) : RecyclerView.Adapter<Die
             6 -> img.setImageResource(R.drawable.six)
         }
     }
-
 }

@@ -1,7 +1,6 @@
 package com.koyuk.enterprises.calculationcubes
 
 import android.support.v7.app.AppCompatActivity
-import android.view.View
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -9,25 +8,22 @@ import kotlinx.android.synthetic.main.roll.*
 import android.media.SoundPool
 import android.media.AudioAttributes
 import android.os.*
-import android.text.Html
-import android.text.Spannable
-import android.text.Spanned
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.ArrayAdapter
 import java.lang.Double.NaN
 import java.lang.Double.POSITIVE_INFINITY
-import kotlin.concurrent.thread
 import kotlin.math.pow
 import kotlin.math.roundToInt
-import android.widget.Toast
-import android.widget.CompoundButton
-import android.view.ViewGroup
-import android.view.View.OnLayoutChangeListener
 import android.support.v7.widget.LinearLayoutManager
-import android.R.attr.data
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
+import android.view.*
+import android.view.animation.AnimationUtils
+import android.widget.*
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import kotlinx.android.synthetic.main.settings_view.view.*
 
 
 /**
@@ -36,7 +32,7 @@ import android.support.v7.widget.RecyclerView
  **/
 class Roll : AppCompatActivity() {
     // TODO: make this a setting
-    var numOfDice = 5
+    var numOfDice = 3
     var targetMax = 144
     var showPlusMinus = false
     var cutoff = 10000
@@ -46,6 +42,8 @@ class Roll : AppCompatActivity() {
     lateinit var answers : ArrayList<Answer>
     lateinit var infinites : ArrayList<Answer>
     lateinit var nans : ArrayList<Answer>
+    lateinit var settings: View
+    lateinit var upDownButton: MenuItem
 
     var operations : ArrayList<String> = arrayListOf("+", "-", "*", "/", "^", "~")
 
@@ -59,25 +57,86 @@ class Roll : AppCompatActivity() {
     var target = 0
     var baseline = 0
 
-    lateinit var gLayout : GridLayoutManager
+    var isUp = true
+
+    lateinit var emptyDieArray : MutableList<Die>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.roll)
+        setSupportActionBar(findViewById(R.id.toolbar))
+        //getSupportActionBar()!!.setDisplayShowTitleEnabled(false);
+
         //Our function to initialise sound playing
         rollButton!!.setOnClickListener(HandleClick())
         //link handler to callback
         handler = Handler(callback)
-        die = mutableListOf()
         answers = arrayListOf()
-        for (i in 0 until numOfDice) {
-            die.add(Die(0))
+        die = mutableListOf()
+
+        setDice()
+
+        checkShowAnswers.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked){
+                scrollListView.visibility = View.VISIBLE
+                if(answers.count() > 0) {
+                    differenceText.visibility = View.VISIBLE
+                }
+            }
+            else{
+                scrollListView.visibility = View.INVISIBLE
+                differenceText.visibility = View.INVISIBLE
+            }
+        })
+        settings = findViewById(R.id.calcSettingsView)
+        settings.bringToFront()
+
+        var spinner = findViewById<Spinner>(R.id.numDiceSpinner)
+        val spinnerdapter = ArrayAdapter.createFromResource(this, R.array.numDiceArray, R.layout.spinner_text)
+        spinnerdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        spinner.adapter = spinnerdapter
+
+        spinner.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                parent.getItemAtPosition(position)
+            }
+
+            override fun onNothingSelected(arg0: AdapterView<*>) {}
         }
-        // TODO: Calculate span
-        //var span =
-        val recyclerView = findViewById(R.id.diceView) as RecyclerView
-        val adapter = DiceRecyclerViewAdapter(die)
+        spinner.setSelection(spinnerdapter.getPosition( numOfDice.toString()))
+        spinner.invalidate()
+        spinner.bringToFront()
+
+        var submitButton = findViewById<Button>(R.id.submitSettingsButton)
+        submitButton.setOnClickListener {
+            setSettings()
+        }
+        var cancelButton = findViewById<Button>(R.id.settingsCancelButton)
+        cancelButton.setOnClickListener {
+            slideUp()
+        }
+
+    }// Menu icons are inflated just as they were with actionbar
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        super.onCreateOptionsMenu(menu)
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu_main, menu)
+        upDownButton = menu.findItem(R.id.settings_menu)
+        return true
+    }
+
+    fun setDice(){
+        emptyDieArray = mutableListOf()
+        for (i in 0 until numOfDice) {
+            emptyDieArray.add(Die(0))
+        }
+
+        val recyclerView = findViewById<RecyclerView>(R.id.diceView)
+        val adapter = DiceRecyclerViewAdapter(emptyDieArray)
+
         recyclerView.adapter = adapter
+        var gLayout : GridLayoutManager
         if(numOfDice % 3 == 0) {
             gLayout = GridLayoutManager(this, 3)
         }
@@ -100,19 +159,75 @@ class Roll : AppCompatActivity() {
             }
         }
         recyclerView.layoutManager = gLayout
+    }
 
-        checkShowAnswers.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked){
-                scrollListView.visibility = View.VISIBLE
-                if(answers.count() > 0) {
-                    differenceText.visibility = View.VISIBLE
-                }
-            }
-            else{
-                scrollListView.visibility = View.INVISIBLE
-                differenceText.visibility = View.INVISIBLE
-            }
-        })
+    fun setSettings(){
+        var spinner = findViewById<Spinner>(R.id.numDiceSpinner)
+        numOfDice = spinner.selectedItemPosition + 2
+        answers = arrayListOf()
+        setAnswersView()
+        targetText.text = ""
+        val maxTarget =  findViewById<EditText>(R.id.setMaxTarget).text.toString()
+        try{
+            targetMax = Integer.parseInt(maxTarget)
+        }
+        catch(e: Exception){
+            setMaxTargetErrorVisible(true)
+            return
+        }
+        setDice()
+        slideUp()
+    }
+    fun setMaxTargetErrorVisible(visible: Boolean){
+
+        val error =  findViewById<TextView>(R.id.setMaxTargetError)
+        if(visible){
+            error.visibility = View.VISIBLE
+        }
+        else{
+            error.visibility = View.INVISIBLE
+        }
+    }
+
+    public fun slideUp() {
+        settings.animate()
+                .translationY(0f)
+                .setDuration(500)
+                .start()
+        upDownButton.setIcon(R.drawable.baseline_keyboard_arrow_down_black_18dp)
+        isUp = !isUp
+
+        var inout = AnimationUtils.makeInAnimation(this, false);
+        rollButton.startAnimation(inout);
+        rollButton.visibility = View.VISIBLE;
+    }
+
+    // slide the view from its current position to below itself
+    public fun slideDown(){
+        showCurrentSettings()
+        settings.animate()
+                .translationY(900f)
+                .setDuration(500)
+                .start()
+        upDownButton.setIcon(R.drawable.baseline_keyboard_arrow_up_black_18dp)
+        isUp = !isUp
+
+        var out = AnimationUtils.makeOutAnimation(this, true);
+        rollButton.startAnimation(out);
+        rollButton.setVisibility(View.INVISIBLE);
+    }
+
+    public fun onSlideSettingsView(button: MenuItem) {
+        if (isUp) {
+            slideDown()
+        } else {
+            slideUp()
+        }
+    }
+    fun showCurrentSettings(){
+        var max = findViewById<EditText>(R.id.setMaxTarget)
+        max.setText(targetMax.toString())
+        setMaxTargetErrorVisible(false)
     }
 
     //User pressed diceImages, lets start
@@ -172,6 +287,9 @@ class Roll : AppCompatActivity() {
             infinites = ArrayList(10)
             answerListView.adapter = null
             die.clear()
+            val recyclerView = findViewById<RecyclerView>(R.id.diceView)
+            val adapter = DiceRecyclerViewAdapter(emptyDieArray)
+            recyclerView.adapter = adapter
             //Get roll result
             for (i in 0 until numOfDice) {
                 var oneDie = rnd.nextInt(6) + 1
@@ -189,6 +307,14 @@ class Roll : AppCompatActivity() {
             if(checkShowAnswers.isChecked) {
                 differenceText.visibility = View.VISIBLE
             }
+            val adapter2 = DiceRecyclerViewAdapter(die)
+            val callback = ItemMoveCallback(adapter2)
+            if(numOfDice > 3){
+                callback.setMoreThanOneRow()
+            }
+            val touchHelper = ItemTouchHelper(callback)
+            touchHelper.attachToRecyclerView(recyclerView)
+            recyclerView.adapter = adapter2
             return true
         }
     }
@@ -199,18 +325,22 @@ class Roll : AppCompatActivity() {
             addToList(results[i])
         }
         // sort and show results
-        var display = answers.sortedWith(compareBy { it.absoluteDiff }).toMutableList()
-
-        val recyclerView = findViewById(R.id.answerListView) as RecyclerView
-        val adapter = TwoColumnListAdapter(display)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        setAnswersView()
 
         if(!checkShowAnswers.isChecked){
             scrollListView.visibility = View.INVISIBLE
             differenceText.visibility = View.INVISIBLE
         }
         // TODO: Not showing nans, infinities
+    }
+    private fun setAnswersView(){
+        // sort and show results
+        var display = answers.sortedWith(compareBy { it.absoluteDiff }).toMutableList()
+
+        val recyclerView = findViewById(R.id.answerListView) as RecyclerView
+        val adapter = TwoColumnListAdapter(display)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
     }
     private fun sortNumber(a:Equation, b:Equation): Int
     {

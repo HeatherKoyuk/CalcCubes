@@ -14,4 +14,14 @@ class ViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(
         solution = itemView.findViewById(R.id.textSolution)
         diff = itemView.findViewById(R.id.textAbsoluteDifference)
     }
+
+    interface OnStartDragListener {
+
+        /**
+         * Called when a view is requesting a start of a drag.
+         *
+         * @param viewHolder The holder of the view to drag.
+         */
+        fun onStartDrag(viewHolder: RecyclerView.ViewHolder)
+    }
 }

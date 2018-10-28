@@ -22,7 +22,10 @@ android {
     }
     productFlavors {
     }
-    buildToolsVersion '28.0.2'
+    buildToolsVersion '28.0.3'
+    sourceSets {
+        main { res.srcDirs = ['src/main/res', 'src/main/res/layout/menu', 'src/main/res/menu'] }
+    }
 }
 
 dependencies {

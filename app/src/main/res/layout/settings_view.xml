@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/calcSettingsView"
+    android:background="#a6e1aa"
+    android:layout_width="match_parent"
+    android:layout_height="300dp">
+
+        <TextView
+            android:id="@+id/NumOfDieLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
+            android:textSize="30sp"
+            android:gravity="left|center"
+            android:text="Number of Dice:"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    <Spinner
+        android:id="@+id/numDiceSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawSelectorOnTop="true"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="4dp"
+        android:entries="@array/numDiceArray"
+        android:textSize="36sp"
+        app:layout_constraintStart_toEndOf="@+id/NumOfDieLabel"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/setMaxTargetText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
+        android:textSize="30sp"
+        android:gravity="left|center"
+        android:text="Max Target:"
+        app:layout_constraintTop_toBottomOf="@+id/NumOfDieLabel"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/setMaxTarget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
+        android:textSize="30sp"
+        android:gravity="left|center"
+        app:layout_constraintTop_toBottomOf="@+id/NumOfDieLabel"
+        app:layout_constraintStart_toEndOf="@+id/setMaxTargetText" />
+
+    <TextView
+        android:id="@+id/setMaxTargetError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
+        android:textSize="20sp"
+        android:textColor="@color/colorAccent"
+        android:gravity="left|center"
+        android:text="Error: enter a valid integer value for Max Target"
+        app:layout_constraintTop_toBottomOf="@+id/setMaxTargetText"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/submitSettingsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:text="Submit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteX="260dp" />
+
+    <Button
+        android:id="@+id/settingsCancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:text="Cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteX="34dp" />
+</android.support.constraint.ConstraintLayout>

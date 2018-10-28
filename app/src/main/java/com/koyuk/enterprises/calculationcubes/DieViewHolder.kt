@@ -10,4 +10,5 @@ class DieViewHolder internal constructor(view: View) : RecyclerView.ViewHolder(v
 
     internal var image: ImageView = view.findViewById(R.id.dieImage)
     internal var text: TextView = view.findViewById(R.id.dieText)
+    var rowView: View? = view
 }
