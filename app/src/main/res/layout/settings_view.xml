@@ -14,7 +14,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginLeft="12dp"
             android:layout_marginStart="12dp"
-            android:textSize="30sp"
+            android:textSize="28sp"
             android:gravity="left|center"
             android:text="Number of Dice:"
             app:layout_constraintTop_toTopOf="parent"
@@ -29,8 +29,33 @@
         android:layout_marginTop="4dp"
         android:entries="@array/numDiceArray"
         android:textSize="36sp"
-        app:layout_constraintStart_toEndOf="@+id/NumOfDieLabel"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/NumOfDieLabel" />
+
+    <TextView
+        android:id="@+id/dieSidesLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
+        android:textSize="28sp"
+        android:gravity="left|center"
+        android:text="Number of Sides:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/numDiceSpinner" />
+
+    <Spinner
+        android:id="@+id/numDiceSidesSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawSelectorOnTop="true"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="4dp"
+        android:entries="@array/numDiceArray"
+        android:textSize="36sp"
+        app:layout_constraintStart_toEndOf="@+id/dieSidesLabel"
+        app:layout_constraintTop_toBottomOf="@+id/numDiceSpinner" />
 
     <TextView
         android:id="@+id/setMaxTargetText"
@@ -39,10 +64,10 @@
         android:layout_marginTop="8dp"
         android:layout_marginLeft="12dp"
         android:layout_marginStart="12dp"
-        android:textSize="30sp"
+        android:textSize="28sp"
         android:gravity="left|center"
         android:text="Max Target:"
-        app:layout_constraintTop_toBottomOf="@+id/NumOfDieLabel"
+        app:layout_constraintTop_toBottomOf="@+id/dieSidesLabel"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
@@ -54,23 +79,75 @@
         android:layout_marginStart="12dp"
         android:textSize="30sp"
         android:gravity="left|center"
-        app:layout_constraintTop_toBottomOf="@+id/NumOfDieLabel"
+        app:layout_constraintTop_toBottomOf="@+id/dieSidesLabel"
         app:layout_constraintStart_toEndOf="@+id/setMaxTargetText" />
 
     <TextView
         android:id="@+id/setMaxTargetError"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:visibility="invisible"
         android:layout_marginTop="4dp"
         android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
         android:layout_marginStart="12dp"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:textColor="@color/colorAccent"
         android:gravity="left|center"
-        android:text="Error: enter a valid integer value for Max Target"
-        app:layout_constraintTop_toBottomOf="@+id/setMaxTargetText"
+        android:text="Enter a valid integer"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/numDiceSpinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/settingsCancelButton"
+        />
+
+    <TextView
+        android:id="@+id/allowPowerOfText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
+        android:textSize="24sp"
+        android:gravity="left|center"
+        android:text="Powers and roots:"
+        app:layout_constraintTop_toBottomOf="@+id/setMaxTarget"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <CheckBox
+        android:id="@+id/allowPowersCB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
+        android:gravity="left|center"
+        app:layout_constraintTop_toBottomOf="@+id/setMaxTarget"
+        app:layout_constraintStart_toEndOf="@+id/allowPowerOfText" />
+
+    <TextView
+        android:id="@+id/hideSolutionsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
+        android:textSize="24sp"
+        android:gravity="left|center"
+        android:text="Hide solutions each roll:"
+        app:layout_constraintTop_toBottomOf="@+id/allowPowersCB"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <CheckBox
+        android:id="@+id/hideSolutionsCB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
+        android:gravity="left|center"
+        app:layout_constraintTop_toBottomOf="@+id/allowPowersCB"
+        app:layout_constraintStart_toEndOf="@+id/hideSolutionsText" />
 
     <Button
         android:id="@+id/submitSettingsButton"

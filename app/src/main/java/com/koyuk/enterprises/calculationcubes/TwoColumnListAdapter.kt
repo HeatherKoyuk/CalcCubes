@@ -1,5 +1,7 @@
 package com.koyuk.enterprises.calculationcubes
 
+import android.graphics.Color
+import android.opengl.Visibility
 import android.support.v7.widget.RecyclerView
 import android.text.Html
 import android.text.Html.FROM_HTML_MODE_LEGACY
@@ -10,6 +12,11 @@ import android.widget.TextView.BufferType
 import android.text.Spannable
 import android.text.style.SuperscriptSpan
 import android.text.SpannableStringBuilder
+import android.view.ContextThemeWrapper
+import android.view.View
+import android.widget.TextView
+
+
 
 
 
@@ -38,8 +45,31 @@ class TwoColumnListAdapter(list: MutableList<Roll.Answer>) : RecyclerView.Adapte
         else {
             holder.solution.setText(ans.display)
         }
-        holder.diff.setText(ans.absoluteDiffDisplay)
-
+        var diffNone = holder.diff.findViewById(R.id.textAbsoluteDifferenceNone) as TextView
+        var diffMinus = holder.diff.findViewById(R.id.textAbsoluteDifferenceMinus) as TextView
+        var diffPlus = holder.diff.findViewById(R.id.textAbsoluteDifferencePlus) as TextView
+        diffNone.setText("")
+        diffMinus.setText("")
+        diffPlus.setText("")
+        diffNone.visibility = View.INVISIBLE
+        diffMinus.visibility = View.INVISIBLE
+        diffPlus.visibility = View.INVISIBLE
+        if(ans.plusMinus == 0){
+            diffNone.visibility = View.VISIBLE
+            diffNone.setText(ans.absoluteDiffDisplay)
+        }
+        else if(ans.plusMinus < 0){
+            diffMinus.visibility = View.VISIBLE
+            diffMinus.setText(ans.absoluteDiffDisplay)
+        }
+        else{
+            diffPlus.visibility = View.VISIBLE
+            diffPlus.setText(ans.absoluteDiffDisplay)
+        }
+        diffNone.invalidate()
+        diffMinus.invalidate()
+        diffPlus.invalidate()
+        holder.diff.invalidate()
         //animate(holder);
 
     }

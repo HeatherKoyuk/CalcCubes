@@ -15,15 +15,36 @@
         android:layout_columnWeight="2"
         android:layout_columnSpan="2"
         android:id="@+id/textSolution"/>
-    <TextView
-        android:textColor="@android:color/holo_red_light"
-        android:textSize="20sp"
+    <LinearLayout
+        android:id="@+id/absoluteDiff"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="start|end|fill_horizontal"
         android:layout_marginTop="5dp"
-        android:text="Diff"
-        android:layout_columnWeight="1"
-        android:id="@+id/textAbsoluteDifference"/>
+        android:layout_columnWeight="1">
+    <TextView
+        android:id="@+id/textAbsoluteDifferenceNone"
+        android:textColor="@color/noDiffColor"
+        android:visibility="invisible"
+        android:textSize="20sp"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_gravity="start|end|fill_horizontal"/>
+    <TextView
+        android:id="@+id/textAbsoluteDifferencePlus"
+        android:textColor="@color/minusColor"
+        android:visibility="invisible"
+        android:textSize="20sp"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_gravity="start|end|fill_horizontal"/>
+    <TextView
+        android:id="@+id/textAbsoluteDifferenceMinus"
+        android:textColor="@color/plusColor"
+        android:visibility="invisible"
+        android:textSize="20sp"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_gravity="start|end|fill_horizontal"/>
+    </LinearLayout>
 
 </GridLayout>

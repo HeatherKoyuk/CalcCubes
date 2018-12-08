@@ -6,9 +6,28 @@ import android.view.View
 import android.widget.ImageView
 
 
-class DieViewHolder internal constructor(view: View) : RecyclerView.ViewHolder(view) {
+class DieViewHolder internal constructor(view: View) : RecyclerView.ViewHolder(view), ItemTouchHelperViewHolder{
 
     internal var image: ImageView = view.findViewById(R.id.dieImage)
     internal var text: TextView = view.findViewById(R.id.dieText)
     var rowView: View? = view
+
+    override fun onItemSelected() {
+    }
+
+    override fun onItemClear() {
+    }
+
+}
+
+interface ItemTouchHelperViewHolder {
+    /**
+     * Implementations should update the item view to indicate it's active state.
+     */
+    fun onItemSelected()
+
+    /**
+     * state should be cleared.
+     */
+    fun onItemClear()
 }

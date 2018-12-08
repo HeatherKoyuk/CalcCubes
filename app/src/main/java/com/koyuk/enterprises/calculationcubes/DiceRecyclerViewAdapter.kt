@@ -15,20 +15,31 @@ import android.widget.TextView
 import android.support.v7.widget.helper.ItemTouchHelper.Callback.makeMovementFlags
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.R.attr.data
+import android.content.Context
 import android.graphics.Color
 import java.util.Collections.swap
+import android.view.MotionEvent
+import android.support.v4.view.MotionEventCompat
+import android.util.Log
 
 
-
-
-
-
-class DiceRecyclerViewAdapter(list: MutableList<Die>)  : RecyclerView.Adapter<DieViewHolder>(), ItemMoveCallback.ItemTouchHelperContract {
+class DiceRecyclerViewAdapter(list: MutableList<Die>, context: Context,
+                              dragLlistener: OnStartDragListener,
+                              listChangedListener: OnDiceListChangedListener)  : RecyclerView.Adapter<DieViewHolder>(), ItemTouchHelperAdapter {
 
     var list = mutableListOf<Die>()
+    private var mContext: Context? = null
+    private var mDragStartListener: OnStartDragListener
+    private var mListChangedListener: OnDiceListChangedListener
+
     init {
         this.list = list
+        this.mContext = context
+        this.mDragStartListener = dragLlistener
+        this.mListChangedListener = listChangedListener
     }
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DieViewHolder {
         //Inflate the layout, initialize the View Holder
@@ -36,17 +47,31 @@ class DiceRecyclerViewAdapter(list: MutableList<Die>)  : RecyclerView.Adapter<Di
         return DieViewHolder(v)
     }
 
+    fun setDie(list: MutableList<Die>){
+        this.list = list
+    }
+
     override fun onBindViewHolder(holder: DieViewHolder, position: Int) {
 
         //Use the provided View Holder on the onCreateViewHolder method to populate the current row on the RecyclerView
-        var pip = list.get(position)
+        val pip = list.get(position)
         var num = pip.pip
 
         setDieImage(holder.image, num)
         holder.text.text = if (num == 0) "" else (num).toString()
 
-        //animate(holder);
+        holder.image.setOnTouchListener { v, event ->
+            if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+                mDragStartListener.onStartDrag(holder)
+            }
+            false
+        }
 
+    }
+
+    override fun onItemMove(fromPosition: Int, toPosition: Int) {
+        //mListChangedListener!!.onNoteListChanged(list)
+        notifyItemMoved(fromPosition, toPosition)
     }
 
     override fun getItemCount(): Int {
@@ -54,46 +79,8 @@ class DiceRecyclerViewAdapter(list: MutableList<Die>)  : RecyclerView.Adapter<Di
         return list.size
     }
 
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
-    }
+    override fun onItemDismiss(position: Int) {
 
-    fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
-        val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
-        val swipeFlags = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-        return makeMovementFlags(dragFlags, swipeFlags)
-    }
-
-    // Insert a new item to the RecyclerView on a predefined position
-    fun insert(position: Int, data: Die) {
-        list.add(position, data)
-        notifyItemInserted(position)
-    }
-
-    // Remove a RecyclerView item containing a specified Data object
-    fun remove(data: Die) {
-        val position = list.indexOf(data)
-        list.removeAt(position)
-        notifyItemRemoved(position)
-    }
-
-    override fun onRowMoved(fromPosition: Int, toPosition: Int) {
-        if (fromPosition < toPosition) {
-            for (i in fromPosition until toPosition) {
-                Collections.swap(list, i, i + 1)
-            }
-        } else {
-            for (i in fromPosition downTo toPosition + 1) {
-                Collections.swap(list, i, i - 1)
-            }
-        }
-        notifyItemMoved(fromPosition, toPosition)
-    }
-
-    override fun onRowSelected(myViewHolder: DieViewHolder) {
-    }
-
-    override fun onRowClear(myViewHolder: DieViewHolder) {
     }
 
     private fun setDieImage(img: ImageView, random: Int){
@@ -107,4 +94,22 @@ class DiceRecyclerViewAdapter(list: MutableList<Die>)  : RecyclerView.Adapter<Di
             6 -> img.setImageResource(R.drawable.six)
         }
     }
+}
+interface ItemTouchHelperAdapter {
+    /**
+     * Called when an item has been dragged far enough to trigger a move. This is called every time
+     * an item is shifted, and not at the end of a "drop" event.
+     *
+     * @param fromPosition The start position of the moved item.
+     * @param toPosition   Then end position of the moved item.
+     */
+    fun onItemMove(fromPosition: Int, toPosition: Int)
+
+
+    /**
+     * Called when an item has been dismissed by a swipe.
+     *
+     * @param position The position of the item dismissed.
+     */
+    fun onItemDismiss(position: Int)
 }
