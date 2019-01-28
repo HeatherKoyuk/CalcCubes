@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-
     <color name="black_overlay">#66000000</color>
 
-    <color name="plusColor">#0000FF</color>
-    <color name="minusColor">#FF0000</color>
-    <color name="noDiffColor">#800080</color>
+    <color name="plusColor">#063793</color>
+    <color name="minusColor">#9f1d1d</color>
+    <color name="noDiffColor">#820085</color>
+
+    <color name="lightestPurple">#a294c2</color>
+    <color name="lightPurple">#7058A8</color>
+    <color name="mainPurple">#553B90</color>
+    <!-- 3F257C, 2A1262, 187165, 085A4F, 9F224C, 7E0B32 -->
+    <color name="lightestGreen">#79BDB4</color>
+    <color name="lightGreen">#489A8E</color>
+    <color name="mainGreen">#2D8478</color>
+    <color name="lightestRed">#EA96B2</color>
+    <color name="lightRed">#D8668C</color>
+    <color name="mainRed">#ae2424</color>
 </resources>

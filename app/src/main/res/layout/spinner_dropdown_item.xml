@@ -6,5 +6,5 @@
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:ellipsize="marquee"
     android:textSize="28sp"
-    android:textColor="#aa66cc"
+    android:textColor="@color/lightPurple"
     android:singleLine="true" />

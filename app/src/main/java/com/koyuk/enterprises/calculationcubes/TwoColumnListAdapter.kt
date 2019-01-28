@@ -1,29 +1,18 @@
 package com.koyuk.enterprises.calculationcubes
 
-import android.graphics.Color
-import android.opengl.Visibility
 import android.support.v7.widget.RecyclerView
 import android.text.Html
-import android.text.Html.FROM_HTML_MODE_LEGACY
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import java.util.*
 import android.widget.TextView.BufferType
-import android.text.Spannable
-import android.text.style.SuperscriptSpan
-import android.text.SpannableStringBuilder
-import android.view.ContextThemeWrapper
 import android.view.View
 import android.widget.TextView
+import com.koyuk.enterprises.calculationcubes.com.koyuk.enterprises.calculationcubes.models.Answer
 
 
+class TwoColumnListAdapter(list: MutableList<Answer>) : RecyclerView.Adapter<ViewHolder>() {
 
-
-
-
-class TwoColumnListAdapter(list: MutableList<Roll.Answer>) : RecyclerView.Adapter<ViewHolder>() {
-
-    var list = mutableListOf<Roll.Answer>()
+    var list = mutableListOf<Answer>()
     init {
         this.list = list
     }
@@ -84,13 +73,13 @@ class TwoColumnListAdapter(list: MutableList<Roll.Answer>) : RecyclerView.Adapte
     }
 
     // Insert a new item to the RecyclerView on a predefined position
-    fun insert(position: Int, data: Roll.Answer) {
+    fun insert(position: Int, data: Answer) {
         list.add(position, data)
         notifyItemInserted(position)
     }
 
     // Remove a RecyclerView item containing a specified Data object
-    fun remove(data: Roll.Answer) {
+    fun remove(data: Answer) {
         val position = list.indexOf(data)
         list.removeAt(position)
         notifyItemRemoved(position)

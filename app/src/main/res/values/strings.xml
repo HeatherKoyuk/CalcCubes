@@ -1,15 +1,11 @@
 <resources>
     <string name="app_name">Calculation Cubes</string>
 
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-
     <string-array name="numDiceArray">
         <item>2</item>
         <item>3</item>
         <item>4</item>
         <item>5</item>
-        <item>6</item>
     </string-array>
     <string-array name="numDiceSidesArray">
         <item>2</item>
@@ -24,5 +20,12 @@
         <item>11</item>
         <item>12</item>
     </string-array>
+
+    <!-- user prefs -->
+    <string name="num_dice_pref">num_dice_pref</string>
+    <string name="num_sides_pref">num_sides_pref</string>
+    <string name="target_max_pref">target_max_pref</string>
+    <string name="allow_powers_pref">allow_powers_pref</string>
+    <string name="hide_solutions_pref">hide_solutions_pref</string>
 
 </resources>
