@@ -1,7 +1,7 @@
 package com.koyuk.enterprises.calculationcubes.messages
 
-import com.koyuk.enterprises.calculationcubes.com.koyuk.enterprises.calculationcubes.models.Answer
-import com.koyuk.enterprises.calculationcubes.com.koyuk.enterprises.calculationcubes.models.Equation
+import com.koyuk.enterprises.calculationcubes.models.Answer
+import com.koyuk.enterprises.calculationcubes.models.Equation
 import kotlinx.coroutines.CompletableDeferred
 import java.util.*
 

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/edit_mode_info_popup"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/editModeInfoHeader"
+                style="@style/infoHeaderText"
+                android:text="EDIT MODE"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/editModeOffImage"
+                style="@style/infoImageClip"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editModeInfoHeader"
+                app:srcCompat="@drawable/edit_mode_off" />
+
+            <TextView
+                android:id="@+id/editModeOff"
+                style="@style/infoText"
+                android:text="@string/edit_mode_off_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editModeOffImage" />
+
+            <TextView
+                android:id="@+id/editModeOnAddendum1"
+                style="@style/infoText"
+                android:text="@string/edit_mode_on_text_addendum"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editModeOff" />
+
+            <ImageView
+                android:id="@+id/editModeOffMainImage"
+                style="@style/infoImageFull"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editModeOnAddendum1"
+                app:srcCompat="@drawable/edit_mode_off_main" />
+
+            <ImageView
+                android:id="@+id/editModeOnImage"
+                style="@style/infoImageClip"
+                android:paddingTop="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editModeOffMainImage"
+                app:srcCompat="@drawable/edit_mode_on" />
+
+            <TextView
+                android:id="@+id/editModeOn"
+                style="@style/infoText"
+                android:text="@string/edit_mode_on_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editModeOnImage" />
+
+            <TextView
+                android:id="@+id/editModeOnAddendum"
+                style="@style/infoText"
+                android:text="@string/edit_mode_on_text_addendum"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editModeOn" />
+
+            <ImageView
+                android:id="@+id/editModeOnMainImage"
+                style="@style/infoImageFull"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editModeOnAddendum"
+                app:srcCompat="@drawable/edit_mode_on_main" />
+
+            <TextView
+                style="@style/infoText"
+                android:paddingBottom="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editModeOnMainImage" />
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:src="@drawable/outline_arrow_back_purple_18dp"
+        app:backgroundTint="@color/evenLighterPurple" />
+</android.support.design.widget.CoordinatorLayout>

@@ -1,9 +1,9 @@
 package com.koyuk.enterprises.calculationcubes
 
-class Die(pip: Int){
+class Die(pip: Int) {
     var pip = 0
 
-    init{
+    init {
         this.pip = pip
     }
 }

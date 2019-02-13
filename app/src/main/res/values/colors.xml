@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black_overlay">#66000000</color>
 
-    <color name="plusColor">#063793</color>
+    <color name="backgroundGrey">#E1E5EF</color>
+    <color name="answerGrey">#F0F0F0</color>
+    <color name="textGrey">#DEE1ED</color>
+
+    <color name="plusColor">#097bb3</color>
     <color name="minusColor">#9f1d1d</color>
-    <color name="noDiffColor">#820085</color>
+    <color name="noDiffColor">#6a3b91</color>
 
+    <color name="evenLighterPurple">#D0C9E0</color>
+    <color name="midLightestPurple">#BDB4D4</color>
     <color name="lightestPurple">#a294c2</color>
     <color name="lightPurple">#7058A8</color>
     <color name="mainPurple">#553B90</color>

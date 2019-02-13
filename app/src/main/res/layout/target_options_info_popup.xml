@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/infoHeader"
+                style="@style/infoHeaderText"
+                android:text="MAXIMUM TARGET OPTIONS"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/mainText"
+                style="@style/infoText"
+                android:text="@string/target_options_main_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/infoHeader" />
+
+            <TextView
+                android:id="@+id/mainText1"
+                style="@style/infoText"
+                android:text="@string/target_options_main_text1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mainText" />
+
+            <ImageView
+                android:id="@+id/num"
+                style="@style/infoImageClip"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mainText1"
+                app:srcCompat="@drawable/max_target_144" />
+
+            <TextView
+                android:id="@+id/mainText2"
+                style="@style/infoText"
+                android:text="@string/target_options_main_text2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/num" />
+
+            <TextView
+                android:id="@+id/mainText3"
+                style="@style/infoText"
+                android:text="@string/target_options_main_text3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mainText2" />
+
+            <ImageView
+                android:id="@+id/num2"
+                style="@style/infoImageClip"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mainText3"
+                app:srcCompat="@drawable/max_target_2_x_12" />
+
+            <TextView
+                android:id="@+id/mainText4"
+                style="@style/infoText"
+                android:text="@string/target_options_main_text4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/num2" />
+
+            <TextView
+                android:id="@+id/mainText5"
+                style="@style/infoText"
+                android:text="@string/target_options_main_text5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mainText4" />
+
+            <TextView
+                style="@style/infoText"
+                android:paddingBottom="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mainText5" />
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:src="@drawable/outline_arrow_back_purple_18dp"
+        app:backgroundTint="@color/evenLighterPurple" />
+</android.support.design.widget.CoordinatorLayout>

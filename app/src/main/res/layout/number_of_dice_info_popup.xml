@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/infoHeader"
+                style="@style/infoHeaderText"
+                android:text="NUMBER OF DICE"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/mainText"
+                style="@style/infoText"
+                android:text="@string/number_dice_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/infoHeader" />
+
+            <TextView
+                android:id="@+id/mainText2"
+                style="@style/infoText"
+                android:text="@string/number_dice_text2"
+                android:textColor="@color/lightRed"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mainText" />
+
+            <ImageView
+                android:id="@+id/numDice2Image"
+                style="@style/infoImageClip"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mainText2"
+                app:srcCompat="@drawable/number_of_dice_2" />
+
+            <ImageView
+                android:id="@+id/numDice2MainImage"
+                style="@style/infoImageFull"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/numDice2Image"
+                app:srcCompat="@drawable/number_of_dice_2_main" />
+
+            <ImageView
+                android:id="@+id/numDiceImage3"
+                style="@style/infoImageClip"
+                android:paddingTop="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/numDice2MainImage"
+                app:srcCompat="@drawable/number_of_dice_3" />
+
+            <ImageView
+                android:id="@+id/numDice3MainImage"
+                style="@style/infoImageFull"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/numDiceImage3"
+                app:srcCompat="@drawable/number_of_dice_3_main" />
+
+            <ImageView
+                android:id="@+id/numDiceImage4"
+                style="@style/infoImageClip"
+                android:paddingTop="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/numDice3MainImage"
+                app:srcCompat="@drawable/number_of_dice_4" />
+
+            <ImageView
+                android:id="@+id/numDice4MainImage"
+                style="@style/infoImageFull"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/numDiceImage4"
+                app:srcCompat="@drawable/number_of_dice_4_main" />
+
+            <ImageView
+                android:id="@+id/numDiceImage5"
+                style="@style/infoImageClip"
+                android:paddingTop="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/numDice4MainImage"
+                app:srcCompat="@drawable/number_of_dice_5" />
+
+            <ImageView
+                android:id="@+id/numDice5MainImage"
+                style="@style/infoImageFull"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/numDiceImage5"
+                app:srcCompat="@drawable/number_of_dice_5_main" />
+
+            <TextView
+                style="@style/infoText"
+                android:paddingBottom="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/numDice5MainImage" />
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:src="@drawable/outline_arrow_back_purple_18dp"
+        app:backgroundTint="@color/evenLighterPurple" />
+</android.support.design.widget.CoordinatorLayout>

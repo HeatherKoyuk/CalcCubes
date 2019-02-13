@@ -3,16 +3,17 @@ package com.koyuk.enterprises.calculationcubes
 import android.support.v7.widget.RecyclerView
 import android.text.Html
 import android.view.LayoutInflater
-import android.view.ViewGroup
-import android.widget.TextView.BufferType
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
-import com.koyuk.enterprises.calculationcubes.com.koyuk.enterprises.calculationcubes.models.Answer
+import android.widget.TextView.BufferType
+import com.koyuk.enterprises.calculationcubes.models.Answer
 
 
 class TwoColumnListAdapter(list: MutableList<Answer>) : RecyclerView.Adapter<ViewHolder>() {
 
-    var list = mutableListOf<Answer>()
+    private var list = mutableListOf<Answer>()
+
     init {
         this.list = list
     }
@@ -27,33 +28,36 @@ class TwoColumnListAdapter(list: MutableList<Answer>) : RecyclerView.Adapter<Vie
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         //Use the provided View Holder on the onCreateViewHolder method to populate the current row on the RecyclerView
-        var ans = list.get(position)
-        if(ans.display.indexOf("<sup>") > -1){
+        val ans = list[position]
+        if (ans.display.indexOf("<sup>") > -1) {
+            // TODO
+            @Suppress("DEPRECATION")
             holder.solution.setText(Html.fromHtml(ans.display), BufferType.SPANNABLE)
+        } else {
+            holder.solution.text = ans.display
         }
-        else {
-            holder.solution.setText(ans.display)
-        }
-        var diffNone = holder.diff.findViewById(R.id.textAbsoluteDifferenceNone) as TextView
-        var diffMinus = holder.diff.findViewById(R.id.textAbsoluteDifferenceMinus) as TextView
-        var diffPlus = holder.diff.findViewById(R.id.textAbsoluteDifferencePlus) as TextView
-        diffNone.setText("")
-        diffMinus.setText("")
-        diffPlus.setText("")
+        val diffNone = holder.diff.findViewById(R.id.textAbsoluteDifferenceNone) as TextView
+        val diffMinus = holder.diff.findViewById(R.id.textAbsoluteDifferenceMinus) as TextView
+        val diffPlus = holder.diff.findViewById(R.id.textAbsoluteDifferencePlus) as TextView
+        diffNone.text = ""
+        diffMinus.text = ""
+        diffPlus.text = ""
         diffNone.visibility = View.INVISIBLE
         diffMinus.visibility = View.INVISIBLE
         diffPlus.visibility = View.INVISIBLE
-        if(ans.plusMinus == 0){
-            diffNone.visibility = View.VISIBLE
-            diffNone.setText(ans.absoluteDiffDisplay)
-        }
-        else if(ans.plusMinus < 0){
-            diffMinus.visibility = View.VISIBLE
-            diffMinus.setText(ans.absoluteDiffDisplay)
-        }
-        else{
-            diffPlus.visibility = View.VISIBLE
-            diffPlus.setText(ans.absoluteDiffDisplay)
+        when {
+            ans.plusMinus == 0 -> {
+                diffNone.visibility = View.VISIBLE
+                diffNone.text = ans.absoluteDiffDisplay
+            }
+            ans.plusMinus < 0 -> {
+                diffMinus.visibility = View.VISIBLE
+                diffMinus.text = ans.absoluteDiffDisplay
+            }
+            else -> {
+                diffPlus.visibility = View.VISIBLE
+                diffPlus.text = ans.absoluteDiffDisplay
+            }
         }
         diffNone.invalidate()
         diffMinus.invalidate()
@@ -66,10 +70,6 @@ class TwoColumnListAdapter(list: MutableList<Answer>) : RecyclerView.Adapter<Vie
     override fun getItemCount(): Int {
         //returns the number of elements the RecyclerView will display
         return list.size
-    }
-
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
     }
 
     // Insert a new item to the RecyclerView on a predefined position

@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Calculation Cubes</string>
 
+    <string-array name="threeArray">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
     <string-array name="numDiceArray">
         <item>2</item>
         <item>3</item>
@@ -27,5 +33,50 @@
     <string name="target_max_pref">target_max_pref</string>
     <string name="allow_powers_pref">allow_powers_pref</string>
     <string name="hide_solutions_pref">hide_solutions_pref</string>
+
+    <string name="info_text_size">16sp</string>
+    <string name="edit_mode_off_text">When the edit mode is off, the number of pips on the dice and the target number will not be editable.
+        The main button will display \'Roll\', and when this Roll button is pressed, the dice and the target will re-roll to randomly selected numbers.</string>
+    <string name="edit_mode_on_text">When the edit mode is on, the number of pips on the dice and the target number will both be editable.
+        The main button will display \'Calculate\', and when this Calculate button is pressed, the solutions will be recalculated for the manually entered dice and target number.</string>
+    <string name="edit_mode_on_text_addendum">The maximum number of sides in or out of Edit Mode is 12 and the maximum target number is 9999.</string>
+    <string name="number_dice_text">You can select between 2 and 5 dice to roll. Note that 5 dice, especially with Powers and Roots turned on, might take 60 seconds or more to finish calculating
+        all possible solutions.</string>
+    <string name="number_dice_text2">Important: Switching between different numbers of dice will clear your current dice entries on the main screen, regardless of whether you are in Edit Mode or not.</string>
+    <string name="number_sides_text">You can select between 2- and 12- sided dice to roll. Selecting the number of sides means you are selecting the
+        maximum number that any of the dice can come up as (it does not guarantee that that number will come up).</string>
+
+    <string name="target_options_main_text">There are two options for randomly selecting the maximum (max) target number. Only the option selected (using the checkbox on the left of the two options) will be applied.</string>
+    <string name="target_options_main_text1">Note: Max target number is not applicable in edit mode, but changes to the maximum target setting options will be saved either way.</string>
+    <string name="target_options_main_text2">With the Max Target option selected, a number up to 9,999 can be entered in the settings box (144 is entered above).
+        When the dice are rolled, a number between 1 and the Max Target number entered (inclusively) will be randomly selected as the target.</string>
+    <string name="target_options_main_text3">This means any number, including a prime number, may be selected as the target number and every number between 1 and the Max Target number has an equal
+        probability of being selected.</string>
+    <string name="target_options_main_text4">With the Multiply Dice Of option selected, the app will simulate randomly throwing the selected number of die (between 1 and 3; \'2\' is selected above),
+        each having the selected number of sides (between 2 and 12; \'12\' is selected above), and multiplying the random results to find the target number.</string>
+    <string name="target_options_main_text5">This will result in a more limited number of outcomes as the target number will be some multiple of the (theoretical) target dice.
+        This will also mean that different target numbers have different probabilities of coming up. For instance, if 2 dice of 12 are selected as below, there are 3 times as many possible rolls
+        where the number 12 will appear as the number 1, while the number 13, which is prime, will never appear.
+    </string>
+    <string name="powers_selected_text2">Note: You can switch between Powers and Roots and not using Powers and Roots without having to re-roll the dice. Bring up the Settings Menu, switch *only* the Powers and Roots option,
+        and then submit the settings.</string>
+    <string name="powers_selected_text">With Powers and Roots selected, power-of and root-of solutions will be calculated and displayed in the solutions list.</string>
+    <string name="roots_text">Note that roots are displayed as a (1/xx) in a superscript, where xx is the root. i.e., a square root is displayed as (1/2) in superscript.</string>
+    <string name="powers_not_selected_text">With Powers and Roots not selected, power-of and root-of solutions will not be calculated or displayed in the solutions list. It is advisable to use this option when using 4 or 5 dice, not
+        only because the app will take a long time to calculate all of the solutions for 5 dice with Powers and Roots turned on, but the solutions themselves can become quite complex with powers of powers of numbers and so on.</string>
+    <string name="hide_solutions_on_text">With Hide Solutions on, every time you roll or calculate, the solutions list will automatically be re-hidden until you check the Solutions checkbox on the main page again. This is advisable for
+        playing live against other people.</string>
+    <string name="hide_solutions_off_text">With Hide Solutions off, new solutions will be displayed immediately if the Solutions checkbox on the main page is checked. (If the Solutions checkbox is not checked, you will still have to
+        check it again to display the solutions.)</string>
+
+    <string name="rules1">Calculation Cubes is a math game. To play, you roll a specified number of dice to get your base numbers, and you use those base numbers in any order with any mathematical operators to come the closest to a randomly selected target number as possible.</string>
+    <string name="rules2">For example, if the dice roll to 1, 2, and 3, and your target number is 7, then 1+(2x3) would be one possible exact solution - and so would 2^3-1. Other solution are listed below:</string>
+    <string name="rules22">(Scroll down for more)</string>
+    <string name="rules3">There may or may not be any exact solutions, depending on the base numbers and the target number selected. The top 500 solutions (or all solutions, if less than 500) are displayed in the Solutions list, ordered by difference between
+        the calculated solution and the target number. The list is scrollable.</string>
+    <string name="rules4">The best way to understand this game is to try it yourself. Give it a roll and see if you can come up with one of the top solutions given the randomly selected dice and target number!</string>
+    <string name="rules5">There are a number of user settings you can choose, including the number of dice, the number of sides on the dice, the max target number, and whether or not to use Edit Mode, and each user setting has instructions available.
+        Use the small \'V\' down arrow at far right of the top menu bar on the main page to access the settings, noted by the pink circle below. Use the Home button to return to the main screen and the link to this page, noted by the green circle below.</string>
+    <string name="rules6">Please forward questions, feedback, enhancement requests, and bugs to koyuk.enterprises@gmail.com. Thank you for playing!</string>
 
 </resources>

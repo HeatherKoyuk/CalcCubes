@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/settings_menu"
-        android:icon="@drawable/baseline_keyboard_arrow_down_black_18dp"
+        android:icon="@drawable/baseline_keyboard_arrow_down_grey_18dp"
         android:title="Settings"
         android:onClick="onSlideSettingsView"
         app:showAsAction="always">

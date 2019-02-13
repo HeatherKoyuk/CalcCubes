@@ -1,16 +1,17 @@
 package com.koyuk.enterprises.calculationcubes
 
-import android.widget.TextView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 
 
-class DieViewHolder internal constructor(view: View) : RecyclerView.ViewHolder(view), ItemTouchHelperViewHolder{
+class DieViewHolder internal constructor(view: View) : RecyclerView.ViewHolder(view), ItemTouchHelperViewHolder {
 
     internal var image: ImageView = view.findViewById(R.id.dieImage)
     internal var text: TextView = view.findViewById(R.id.dieText)
-    var rowView: View? = view
+    internal var editText: TextView = view.findViewById(R.id.dieTextEdit)
+    // var rowView: View? = view
 
     override fun onItemSelected() {
     }

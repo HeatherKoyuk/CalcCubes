@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/calcSettingsView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/backgroundGrey">
+
+    <TextView
+        android:id="@+id/editModeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:gravity="left|center"
+        android:text="Edit Mode:"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Switch
+        android:id="@+id/editModeToggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="10dp"
+        android:gravity="left|center"
+        app:layout_constraintStart_toEndOf="@+id/editModeText"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/infoEditModeButton"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/round_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/i" />
+
+    <include
+        layout="@layout/edit_mode_info_popup"
+        android:layout_width="match_parent"
+        android:layout_height="400sp"
+        android:layout_marginBottom="0dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <TextView
+        android:id="@+id/NumOfDieLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:gravity="left|center"
+        android:text="Number of Dice:"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editModeText" />
+
+    <Spinner
+        android:id="@+id/numDiceSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="0dp"
+        android:drawSelectorOnTop="true"
+        android:entries="@array/numDiceArray"
+        android:textSize="26sp"
+        app:layout_constraintStart_toEndOf="@+id/NumOfDieLabel"
+        app:layout_constraintTop_toBottomOf="@+id/editModeText"
+        tools:layout_editor_absoluteY="4dp" />
+
+    <ImageButton
+        android:id="@+id/infoNumDiceButton"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/round_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editModeText"
+        app:srcCompat="@drawable/i" />
+
+    <TextView
+        android:id="@+id/dieSidesLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:gravity="left|center"
+        android:text="Number of Sides:"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/NumOfDieLabel" />
+
+    <Spinner
+        android:id="@+id/numDiceSidesSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:drawSelectorOnTop="true"
+        android:entries="@array/numDiceArray"
+        android:textSize="26sp"
+        app:layout_constraintStart_toEndOf="@+id/dieSidesLabel"
+        app:layout_constraintTop_toBottomOf="@+id/NumOfDieLabel" />
+
+    <ImageButton
+        android:id="@+id/infoNumSidesButton"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/round_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/NumOfDieLabel"
+        app:srcCompat="@drawable/i" />
+
+    <CheckBox
+        android:id="@+id/ckMaxTarget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:gravity="left|center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dieSidesLabel" />
+
+    <TextView
+        android:id="@+id/setMaxTargetText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:gravity="left|center"
+        android:text="Max Target:"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@+id/ckMaxTarget"
+        app:layout_constraintTop_toBottomOf="@+id/dieSidesLabel" />
+
+    <EditText
+        android:id="@+id/setMaxTarget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:gravity="left|center"
+        android:inputType="number"
+        android:textColor="@color/lightPurple"
+        android:textSize="30sp"
+        app:layout_constraintStart_toEndOf="@+id/setMaxTargetText"
+        app:layout_constraintTop_toTopOf="@+id/dieSidesLabel" />
+
+    <TextView
+        android:id="@+id/or"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="4dp"
+        android:gravity="left|center"
+        android:text="or multiply"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setMaxTargetText" />
+
+    <ImageButton
+        android:id="@+id/infoMaxTargetButton"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/round_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setMaxTargetText"
+        app:srcCompat="@drawable/i" />
+
+    <CheckBox
+        android:id="@+id/ckMaxTargetDie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:gravity="left|center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/or" />
+
+    <Spinner
+        android:id="@+id/multiplyNumDice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:entries="@array/threeArray"
+        android:textSize="26sp"
+        app:layout_constraintStart_toEndOf="@+id/ckMaxTargetDie"
+        app:layout_constraintTop_toBottomOf="@+id/or" />
+
+    <TextView
+        android:id="@+id/dieOf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="left|center"
+        android:text="dice of"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@+id/multiplyNumDice"
+        app:layout_constraintTop_toBottomOf="@+id/or" />
+
+    <Spinner
+        android:id="@+id/multiplyDiceSides"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:entries="@array/numDiceArray"
+        android:textSize="26sp"
+        app:layout_constraintStart_toEndOf="@+id/dieOf"
+        app:layout_constraintTop_toBottomOf="@+id/or" />
+
+    <TextView
+        android:id="@+id/allowPowerOfText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:gravity="left|center"
+        android:text="Powers and roots:"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dieOf" />
+
+    <Switch
+        android:id="@+id/allowPowersCB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="10dp"
+        android:gravity="left|center"
+        app:layout_constraintStart_toEndOf="@+id/allowPowerOfText"
+        app:layout_constraintTop_toBottomOf="@+id/dieOf" />
+
+    <ImageButton
+        android:id="@+id/infoAllowPowersButton"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/round_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dieOf"
+        app:srcCompat="@drawable/i" />
+
+    <TextView
+        android:id="@+id/hideSolutionsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:gravity="left|center"
+        android:text="Hide solutions each roll:"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/allowPowerOfText" />
+
+    <Switch
+        android:id="@+id/hideSolutionsCB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="10dp"
+        android:gravity="left|center"
+        app:layout_constraintStart_toEndOf="@+id/hideSolutionsText"
+        app:layout_constraintTop_toBottomOf="@+id/allowPowerOfText" />
+
+    <ImageButton
+        android:id="@+id/infoHideSolutionsButton"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/round_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/allowPowerOfText"
+        app:srcCompat="@drawable/i" />
+
+    <Button
+        android:id="@+id/submitSettingsButton"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Submit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hideSolutionsText" />
+
+    <Button
+        android:id="@+id/settingsCancelButton"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hideSolutionsText" />
+
+</android.support.constraint.ConstraintLayout>

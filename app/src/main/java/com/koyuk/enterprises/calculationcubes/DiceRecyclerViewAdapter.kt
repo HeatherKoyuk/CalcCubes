@@ -1,44 +1,40 @@
 package com.koyuk.enterprises.calculationcubes
 
-import android.support.v7.widget.RecyclerView
-import android.text.Html
-import android.text.Html.FROM_HTML_MODE_LEGACY
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import java.util.*
-import android.widget.TextView.BufferType
-import android.text.Spannable
-import android.text.style.SuperscriptSpan
-import android.text.SpannableStringBuilder
-import android.widget.ImageView
-import android.widget.TextView
-import android.support.v7.widget.helper.ItemTouchHelper.Callback.makeMovementFlags
-import android.support.v7.widget.helper.ItemTouchHelper
-import android.R.attr.data
 import android.content.Context
-import android.graphics.Color
-import java.util.Collections.swap
-import android.view.MotionEvent
 import android.support.v4.view.MotionEventCompat
-import android.util.Log
+import android.support.v7.widget.RecyclerView
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import java.lang.Integer.parseInt
+import java.util.*
 
 
-class DiceRecyclerViewAdapter(list: MutableList<Die>, context: Context,
-                              dragLlistener: OnStartDragListener,
-                              listChangedListener: OnDiceListChangedListener)  : RecyclerView.Adapter<DieViewHolder>(), ItemTouchHelperAdapter {
+class DiceRecyclerViewAdapter(val roll: Roll, list: MutableList<Die>, context: Context,
+                              dragListener: OnStartDragListener,
+                              listChangedListener: OnDiceListChangedListener,
+                              var editMode: Boolean) : RecyclerView.Adapter<DieViewHolder>(), ItemTouchHelperAdapter {
 
-    var list = mutableListOf<Die>()
+    private var list = mutableListOf<Die>()
+    var values = ArrayList<RetItem>()
     private var mContext: Context? = null
     private var mDragStartListener: OnStartDragListener
     private var mListChangedListener: OnDiceListChangedListener
 
     init {
         this.list = list
+        values = arrayListOf()
+        for (i in 0 until list.size) {
+            values.add(RetItem())
+        }
         this.mContext = context
-        this.mDragStartListener = dragLlistener
+        this.mDragStartListener = dragListener
         this.mListChangedListener = listChangedListener
     }
-
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DieViewHolder {
@@ -47,18 +43,61 @@ class DiceRecyclerViewAdapter(list: MutableList<Die>, context: Context,
         return DieViewHolder(v)
     }
 
-    fun setDie(list: MutableList<Die>){
+    fun setDie(list: MutableList<Die>) {
         this.list = list
+        values = arrayListOf()
+        for (i in 0 until list.size) {
+            values.add(RetItem(list[i].pip))
+        }
+    }
+
+    fun clearDie(list: MutableList<Die>) {
+        this.list = list
+        values = arrayListOf()
+        for (i in 0 until list.size) {
+            values.add(RetItem())
+        }
+    }
+
+    fun setEdit(em: Boolean) {
+        editMode = em
     }
 
     override fun onBindViewHolder(holder: DieViewHolder, position: Int) {
 
         //Use the provided View Holder on the onCreateViewHolder method to populate the current row on the RecyclerView
-        val pip = list.get(position)
-        var num = pip.pip
+        val pip = list[position]
+        val num = pip.pip
 
         setDieImage(holder.image, num)
-        holder.text.text = if (num == 0) "" else (num).toString()
+        if (editMode) {
+            holder.text.visibility = View.GONE
+            holder.editText.visibility = View.VISIBLE
+            holder.editText.text = if (num == 0) "" else (num).toString()
+            holder.editText.addTextChangedListener(object : TextWatcher {
+
+                override fun afterTextChanged(s: Editable) {}
+
+                override fun beforeTextChanged(s: CharSequence, start: Int,
+                                               count: Int, after: Int) {
+                }
+
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                    roll.clearAnswers()
+                    values[position].value = s.toString()
+                    try {
+                        setDieImage(holder.image, parseInt(s.toString()))
+                    } catch (e: Exception) {
+                    }
+                }
+            })
+        } else {
+            holder.editText.visibility = View.GONE
+            holder.text.visibility = View.VISIBLE
+            val stringValue = if (num == 0) "" else (num).toString()
+            holder.text.text = stringValue
+            values[position].value = stringValue
+        }
 
         holder.image.setOnTouchListener { v, event ->
             if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
@@ -67,6 +106,10 @@ class DiceRecyclerViewAdapter(list: MutableList<Die>, context: Context,
             false
         }
 
+    }
+
+    fun retrieveData(): List<RetItem> {
+        return values
     }
 
     override fun onItemMove(fromPosition: Int, toPosition: Int) {
@@ -83,7 +126,8 @@ class DiceRecyclerViewAdapter(list: MutableList<Die>, context: Context,
 
     }
 
-    private fun setDieImage(img: ImageView, random: Int){
+    private fun setDieImage(img: ImageView, random: Int) {
+
         when (random) {
             0 -> img.setImageResource(R.drawable.dice3droll)
             1 -> img.setImageResource(R.drawable.one)
@@ -92,9 +136,16 @@ class DiceRecyclerViewAdapter(list: MutableList<Die>, context: Context,
             4 -> img.setImageResource(R.drawable.four)
             5 -> img.setImageResource(R.drawable.five)
             6 -> img.setImageResource(R.drawable.six)
+            7 -> img.setImageResource(R.drawable.seven)
+            8 -> img.setImageResource(R.drawable.eight)
+            9 -> img.setImageResource(R.drawable.nine)
+            10 -> img.setImageResource(R.drawable.ten)
+            11 -> img.setImageResource(R.drawable.eleven)
+            12 -> img.setImageResource(R.drawable.twelve)
         }
     }
 }
+
 interface ItemTouchHelperAdapter {
     /**
      * Called when an item has been dragged far enough to trigger a move. This is called every time
@@ -112,4 +163,13 @@ interface ItemTouchHelperAdapter {
      * @param position The position of the item dismissed.
      */
     fun onItemDismiss(position: Int)
+}
+
+class RetItem {
+    var value: String? = null
+
+    constructor()
+    constructor(i: Int) {
+        value = i.toString()
+    }
 }

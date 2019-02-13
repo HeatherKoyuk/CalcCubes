@@ -6,9 +6,9 @@ import android.support.v7.widget.helper.ItemTouchHelper
 
 class ItemMoveCallback(private val mAdapter: ItemTouchHelperAdapter) : ItemTouchHelper.Callback() {
 
-    var moreThanOneRow = false
+    private var moreThanOneRow = false
 
-    fun setMoreThanOneRow(){
+    fun setMoreThanOneRow() {
         moreThanOneRow = true
     }
 
@@ -48,7 +48,7 @@ class ItemMoveCallback(private val mAdapter: ItemTouchHelperAdapter) : ItemTouch
 
     override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
         var dragFlags = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-        if(moreThanOneRow){
+        if (moreThanOneRow) {
             dragFlags = dragFlags or ItemTouchHelper.UP or ItemTouchHelper.DOWN
         }
         return ItemTouchHelper.Callback.makeMovementFlags(dragFlags, 0)
