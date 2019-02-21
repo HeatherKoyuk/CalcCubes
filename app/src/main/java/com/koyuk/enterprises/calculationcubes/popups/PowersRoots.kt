@@ -10,7 +10,7 @@ class PowersRoots : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.powers_and_roots_info_popup)
+        setContentView(R.layout.level_info_popup)
 
         fab.setOnClickListener {
             finish()

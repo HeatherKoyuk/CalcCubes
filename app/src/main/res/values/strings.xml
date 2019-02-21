@@ -27,12 +27,8 @@
         <item>12</item>
     </string-array>
 
-    <!-- user prefs -->
-    <string name="num_dice_pref">num_dice_pref</string>
-    <string name="num_sides_pref">num_sides_pref</string>
-    <string name="target_max_pref">target_max_pref</string>
-    <string name="allow_powers_pref">allow_powers_pref</string>
-    <string name="hide_solutions_pref">hide_solutions_pref</string>
+    <string name="square_root_symbol">\u221a</string>
+    <string name="power_roots">^/\u221a</string>
 
     <string name="info_text_size">16sp</string>
     <string name="edit_mode_off_text">When the edit mode is off, the number of pips on the dice and the target number will not be editable.
@@ -58,12 +54,18 @@
         This will also mean that different target numbers have different probabilities of coming up. For instance, if 2 dice of 12 are selected as below, there are 3 times as many possible rolls
         where the number 12 will appear as the number 1, while the number 13, which is prime, will never appear.
     </string>
-    <string name="powers_selected_text2">Note: You can switch between Powers and Roots and not using Powers and Roots without having to re-roll the dice. Bring up the Settings Menu, switch *only* the Powers and Roots option,
-        and then submit the settings.</string>
-    <string name="powers_selected_text">With Powers and Roots selected, power-of and root-of solutions will be calculated and displayed in the solutions list.</string>
+    <string name="level_text2">Note: You can switch between levels without having to re-roll the dice. Bring up the Settings Menu, switch *only* the level option,
+        and then submit the settings. The solutions list will be recalcuated to the selected level.</string>
+    <string name="add_selected_text">With Add and Subtract selected, only equations using addition and subtraction will be calculated and displayed in the solutions list.</string>
+    <string name="multiply_selected_text">With Multiply and Divide selected, solutions using addition, subtraction, multiplication, and division will be used.
+        Power-of and root-of solutions will not be calculated or displayed in the solutions list.</string>
+    <string name="powers_selected_text">With Powers and Roots selected, addition, subtraction, multiplication, division, power-of and root-of solutions will be calculated and
+        displayed in the solutions list.</string>
     <string name="roots_text">Note that roots are displayed as a (1/xx) in a superscript, where xx is the root. i.e., a square root is displayed as (1/2) in superscript.</string>
-    <string name="powers_not_selected_text">With Powers and Roots not selected, power-of and root-of solutions will not be calculated or displayed in the solutions list. It is advisable to use this option when using 4 or 5 dice, not
-        only because the app will take a long time to calculate all of the solutions for 5 dice with Powers and Roots turned on, but the solutions themselves can become quite complex with powers of powers of numbers and so on.</string>
+    <string name="powers_selected_text_warning">Note: It is not advisable to use this option when using 4 or 5 dice, not
+        only because the app will take a long time to calculate all of the solutions for 5 dice with Powers and Roots turned on, but the solutions themselves can
+        become quite complex with powers of powers of numbers.</string>
+
     <string name="hide_solutions_on_text">With Hide Solutions on, every time you roll or calculate, the solutions list will automatically be re-hidden until you check the Solutions checkbox on the main page again. This is advisable for
         playing live against other people.</string>
     <string name="hide_solutions_off_text">With Hide Solutions off, new solutions will be displayed immediately if the Solutions checkbox on the main page is checked. (If the Solutions checkbox is not checked, you will still have to
@@ -77,6 +79,8 @@
     <string name="rules4">The best way to understand this game is to try it yourself. Give it a roll and see if you can come up with one of the top solutions given the randomly selected dice and target number!</string>
     <string name="rules5">There are a number of user settings you can choose, including the number of dice, the number of sides on the dice, the max target number, and whether or not to use Edit Mode, and each user setting has instructions available.
         Use the small \'V\' down arrow at far right of the top menu bar on the main page to access the settings, noted by the pink circle below. Use the Home button to return to the main screen and the link to this page, noted by the green circle below.</string>
+    <string name="rules55">Note that the time it takes for 5 dice to finish calculating may be 60 seconds or longer. This is due to the sheer number of calculations
+        required so please just be patient if you are playing with 5 dice! (4 dice take a second or two longer than 3 dice but should complete within a couple of seconds.)</string>
     <string name="rules6">Please forward questions, feedback, enhancement requests, and bugs to koyuk.enterprises@gmail.com. Thank you for playing!</string>
 
 </resources>

@@ -1,9 +1,11 @@
 package com.koyuk.enterprises.calculationcubes
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -11,17 +13,21 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
+// import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
+import com.google.ads.mediation.admob.AdMobAdapter
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.reward.RewardItem
+import com.google.android.gms.ads.reward.RewardedVideoAd
+import com.google.android.gms.ads.reward.RewardedVideoAdListener
 import com.koyuk.enterprises.calculationcubes.models.Answer
 import com.koyuk.enterprises.calculationcubes.models.Equation
 import com.koyuk.enterprises.calculationcubes.models.SimpleNumber
@@ -37,7 +43,7 @@ import kotlin.coroutines.CoroutineContext
  * Dice code adapted from https://tekeye.uk/android/examples/android-diceImages-code
  *
  **/
-class Roll : AppCompatActivity(), CoroutineScope, OnStartDragListener, OnDiceListChangedListener {
+class Roll : AppCompatActivity(), CoroutineScope, OnStartDragListener, OnDiceListChangedListener, RewardedVideoAdListener {
 
     var prefs: Prefs? = null
 
@@ -66,7 +72,15 @@ class Roll : AppCompatActivity(), CoroutineScope, OnStartDragListener, OnDiceLis
 
     var rolls = 0
     val rollsBeforeAds = 8
+    var adsDisplayed = 3
+    val adsBeforeDisplayVideoOption = 5
+    val HOUR = 3600*1000
+
+    // Late initialize an alert dialog object
+    private lateinit var dialog: AlertDialog
     private lateinit var mInterstitialAd: InterstitialAd
+    private lateinit var mRewardedVideoAd: RewardedVideoAd
+    private lateinit var extras: Bundle
 
     // private lateinit var binding: RollBinding
 
@@ -193,16 +207,63 @@ class Roll : AppCompatActivity(), CoroutineScope, OnStartDragListener, OnDiceLis
             slideUp()
         }
 
+
+        extras = Bundle()
+        extras.putString("max_ad_content_rating", "G")
+
         MobileAds.initialize(this, "ca-app-pub-4140639688578770~6032762053")
         mInterstitialAd = InterstitialAd(this)
-        //mInterstitialAd.adUnitId = "ca-app-pub-4140639688578770/2023851391"
+        // mInterstitialAd.adUnitId = "ca-app-pub-4140639688578770/2023851391"
+        // use for testing
         mInterstitialAd.adUnitId = "ca-app-pub-3940256099942544/1033173712"
-        mInterstitialAd.loadAd(AdRequest.Builder().build())
+        mInterstitialAd.loadAd(AdRequest.Builder()
+                // .addNetworkExtrasBundle(AdMobAdapter::class.java, extras)
+                .build())
         mInterstitialAd.adListener = object : AdListener() {
             override fun onAdClosed() {
-                mInterstitialAd.loadAd(AdRequest.Builder().build())
+                mInterstitialAd.loadAd(AdRequest.Builder()
+                        // .addNetworkExtrasBundle(AdMobAdapter::class.java, extras)
+                        .build())
             }
         }
+        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
+        mRewardedVideoAd.rewardedVideoAdListener = this;
+        loadRewardedVideoAd()
+
+        // Initialize a new instance of alert dialog builder object
+        val builder = AlertDialog.Builder(this)
+
+        // Set a title for alert dialog
+        builder.setTitle("")
+
+        // Set a message for alert dialog
+        builder.setMessage("Do you want to watch a short video to opt out of ads for 2 hours?")
+
+        // On click listener for dialog buttons
+        val dialogClickListener = DialogInterface.OnClickListener { _, which ->
+            when (which) {
+                DialogInterface.BUTTON_POSITIVE -> if (mRewardedVideoAd.isLoaded) {
+                    mRewardedVideoAd.show()
+                }
+                DialogInterface.BUTTON_NEGATIVE -> if (mInterstitialAd.isLoaded) {
+                    adsDisplayed += 1
+                    mInterstitialAd.show()
+                }
+                DialogInterface.BUTTON_NEUTRAL -> blockPopup()
+            }
+        }
+
+        // Set the alert dialog positive/yes button
+        builder.setPositiveButton("YES", dialogClickListener)
+
+        // Set the alert dialog negative/no button
+        builder.setNegativeButton("NO", dialogClickListener)
+
+        // Set the alert dialog negative/no button
+        builder.setNeutralButton("No, and Do not offer again for 24h", dialogClickListener)
+
+        // Initialize the AlertDialog using builder object
+        dialog = builder.create()
 
         targetTextEdit.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
@@ -243,6 +304,27 @@ class Roll : AppCompatActivity(), CoroutineScope, OnStartDragListener, OnDiceLis
         if (prefs!!.allDieSet()) {
             computeAnswers(checkShowAnswers.isChecked)
         }
+
+        // levels
+        ckAddSubtract.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                ckMultiplyDivide.isChecked = false
+                ckPowersRoots.isChecked = false
+            }
+        }
+        ckMultiplyDivide.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                ckAddSubtract.isChecked = false
+                ckPowersRoots.isChecked = false
+            }
+        }
+        ckPowersRoots.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                ckAddSubtract.isChecked = false
+                ckMultiplyDivide.isChecked = false
+            }
+        }
+
         // set info popups
         infoEditModeButton.setOnClickListener {
             val intent = Intent(this, EditMode::class.java)
@@ -260,7 +342,7 @@ class Roll : AppCompatActivity(), CoroutineScope, OnStartDragListener, OnDiceLis
             val intent = Intent(this, TargetOptions::class.java)
             startActivity(intent)
         }
-        infoAllowPowersButton.setOnClickListener {
+        infoLevelButton.setOnClickListener {
             val intent = Intent(this, PowersRoots::class.java)
             startActivity(intent)
         }
@@ -270,17 +352,21 @@ class Roll : AppCompatActivity(), CoroutineScope, OnStartDragListener, OnDiceLis
         }
     }
 
+    private fun blockPopup(){
+        var currentDateTime = Date()
+        prefs!!.blockPopupEndTime = Date(currentDateTime.time + 24 * HOUR)
+        if (mInterstitialAd.isLoaded) {
+            adsDisplayed += 1
+            mInterstitialAd.show()
+        }
+    }
+
     override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
         if (keyCode == KeyEvent.KEYCODE_ENTER) {
             hideKeyboard()
             return true
         }
         return super.onKeyUp(keyCode, event)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -390,8 +476,16 @@ class Roll : AppCompatActivity(), CoroutineScope, OnStartDragListener, OnDiceLis
         }
 
 
-        val prevAllowPowers = prefs!!.allowPowers
-        prefs!!.allowPowers = allowPowersCB.isChecked
+        val prevLevel = prefs!!.level
+        if(ckAddSubtract.isChecked) {
+            prefs!!.level = 0
+        }
+        else if(ckMultiplyDivide.isChecked){
+            prefs!!.level = 1
+        }
+        else{
+            prefs!!.level = 2
+        }
 
         val prevEditMode = prefs!!.editMode
         prefs!!.editMode = editModeToggle.isChecked
@@ -410,11 +504,15 @@ class Roll : AppCompatActivity(), CoroutineScope, OnStartDragListener, OnDiceLis
             die = getEmptyDie()
             setDice(true)
             setEditMode(prefs!!.editMode)
+
+            if(prefs!!.numOfDice > 4){
+                toast("Note: 5 dice may take 60 seconds or longer to compute")
+            }
         } else {
             if (prevEditMode != prefs!!.editMode) {
                 setEditMode(prefs!!.editMode)
             }
-            if (prevAllowPowers != prefs!!.allowPowers) {
+            if (prevLevel != prefs!!.level) {
                 setBlankAnswersView()
                 computeAnswers(checkShowAnswers.isChecked)
             }
@@ -514,12 +612,19 @@ class Roll : AppCompatActivity(), CoroutineScope, OnStartDragListener, OnDiceLis
     }
 
     private fun showCurrentSettings() {
+        ckAddSubtract.isChecked = false
+        ckMultiplyDivide.isChecked = false
+        ckPowersRoots.isChecked = false
         setMaxTarget.setText(prefs!!.manualMaxTarget.toString())
         multiplyNumDice.setSelection(prefs!!.multiplyNumDice - 1)
         multiplyDiceSides.setSelection(prefs!!.multiplyDiceSides - 2)
         numDiceSpinner.setSelection(prefs!!.numOfDice - 2)
         numDiceSidesSpinner.setSelection(prefs!!.numOfSides - 2)
-        allowPowersCB.isChecked = prefs!!.allowPowers
+        when {
+            prefs!!.level == 0 -> ckAddSubtract.isChecked = true
+            prefs!!.level == 1 -> ckMultiplyDivide.isChecked = true
+            else -> ckPowersRoots.isChecked = true
+        }
         hideSolutionsCB.isChecked = prefs!!.hideSolutions
         editModeToggle.isChecked = prefs!!.editMode
         ckMaxTarget.isChecked = prefs!!.useCustomMaxTarget
@@ -529,15 +634,26 @@ class Roll : AppCompatActivity(), CoroutineScope, OnStartDragListener, OnDiceLis
     //User pressed diceImages, lets start
     private inner class HandleClick : View.OnClickListener {
         override fun onClick(arg0: View) {
-            if (rolls >= rollsBeforeAds) {
-                if (mInterstitialAd.isLoaded) {
-                    mInterstitialAd.show()
+            var date = Date()
+            if(prefs!!.blockAdsEndTime < Date()){
+                if (rolls >= rollsBeforeAds) {
+                    rolls = 0
+                    when {
+                        prefs!!.blockPopupEndTime < date && adsDisplayed >= adsBeforeDisplayVideoOption -> {
+                            adsDisplayed = 0
+                            showDialog()
+                        }
+                        mInterstitialAd.isLoaded -> {
+                            if(prefs!!.blockPopupEndTime < date) {
+                                adsDisplayed += 1
+                            }
+                            mInterstitialAd.show()
+                        }
+                        // else -> Log.d("TAG", "The interstitial wasn't loaded yet.")
+                    }
                 } else {
-                    Log.d("TAG", "The interstitial wasn't loaded yet.")
+                    rolls++
                 }
-                rolls = 0
-            } else {
-                rolls++
             }
             if (!rolling) {
                 // TODO: fix this - rolling
@@ -560,6 +676,11 @@ class Roll : AppCompatActivity(), CoroutineScope, OnStartDragListener, OnDiceLis
         // Print all combination using temporary array 'data[]'
         return combinationUtil(arr, data, 0, equations.size - 1, 0, r)
     }*/
+
+    private fun showDialog(){
+        // Finally, display the alert dialog
+        dialog.show()
+    }
 
     fun rollAndComputeAnswers() {
         calculating = true
@@ -691,7 +812,7 @@ class Roll : AppCompatActivity(), CoroutineScope, OnStartDragListener, OnDiceLis
         launch {
             calculateJob = GlobalScope.launch(Dispatchers.IO)
             {
-                val calculate = Calculate(answerListMaxSize, prefs!!.allowPowers, target)
+                val calculate = Calculate(answerListMaxSize, prefs!!.level, target)
                 val first = async { calculate.computeAnswers(equations) }
                 answers = first.await()
             }
@@ -799,14 +920,62 @@ class Roll : AppCompatActivity(), CoroutineScope, OnStartDragListener, OnDiceLis
         answerViewError.visibility = View.VISIBLE
     }
 
+    override fun onNoteListChanged(l: List<Die>) {
+
+    }
+
+
+    override fun onResume() {
+        mRewardedVideoAd.resume(this)
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+        super.onResume()
+    }
+
+    override fun onPause() {
+        mRewardedVideoAd.pause(this)
+        super.onPause()
+    }
+
+
     override fun onDestroy() {
-        super.onDestroy()
+        mRewardedVideoAd.destroy(this)
         job.cancel()
+        super.onDestroy()
         //timer.cancel()
     }
 
-    override fun onNoteListChanged(l: List<Die>) {
+    override fun onRewardedVideoAdLeftApplication() {
+    }
 
+    override fun onRewardedVideoAdLoaded() {
+    }
+
+    override fun onRewardedVideoAdOpened() {
+    }
+
+    override fun onRewardedVideoCompleted() {
+    }
+
+    override fun onRewarded(p0: RewardItem?) {
+        var currentDateTime = Date()
+        prefs!!.blockAdsEndTime = Date(currentDateTime.time + 2 * HOUR)
+        rolls = 10
+    }
+
+    override fun onRewardedVideoStarted() {
+    }
+
+    override fun onRewardedVideoAdFailedToLoad(p0: Int) {
+    }
+
+    override fun onRewardedVideoAdClosed() {
+        loadRewardedVideoAd()
+    }
+    private fun loadRewardedVideoAd() {
+        mRewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917", // "ca-app-pub-4140639688578770/8774834561", //
+                AdRequest.Builder()
+                        // .addNetworkExtrasBundle(AdMobAdapter::class.java, extras)
+                        .build())
     }
 }
 

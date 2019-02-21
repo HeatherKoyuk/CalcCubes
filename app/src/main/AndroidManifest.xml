@@ -1,17 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.koyuk.enterprises.calculationcubes">
+          package="com.koyuk.enterprises.calculationcubes">
 
-    <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+    <application android:allowBackup="true"
+                 android:label="@string/app_name"
+                 android:icon="@mipmap/ic_launcher"
+                 android:roundIcon="@mipmap/ic_launcher_round"
+                 android:supportsRtl="true"
+                 android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-4140639688578770~6032762053" />
+
         <activity
-            android:name=".Home"
-            android:theme="@style/AppTheme">
+                android:name=".Home"
+                android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,71 +24,67 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="java-lang-programming"
-                    android:scheme="android-app-google-plus-demo" />
+                        android:host="java-lang-programming"
+                        android:scheme="android-app-google-plus-demo" />
             </intent-filter>
         </activity>
 
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-4140639688578770~6032762053" />
+        <activity
+                android:name=".Roll"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:theme="@style/AppTheme"
+                android:label="@string/app_name"
+                android:windowSoftInputMode="stateHidden|adjustNothing" />
 
         <activity
-            android:name=".Roll"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/AppTheme"
-            android:label="@string/app_name"
-            android:windowSoftInputMode="stateHidden|adjustNothing" />
+                android:name=".popups.EditMode"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:label="@string/app_name"
+                android:theme="@style/AppTheme"
+                android:windowSoftInputMode="stateHidden|adjustNothing" />
 
         <activity
-            android:name=".popups.EditMode"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateHidden|adjustNothing" />
+                android:name=".popups.NumberDice"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:label="@string/app_name"
+                android:theme="@style/AppTheme"
+                android:windowSoftInputMode="stateHidden|adjustNothing" />
 
         <activity
-            android:name=".popups.NumberDice"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateHidden|adjustNothing" />
+                android:name=".popups.NumberSides"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:label="@string/app_name"
+                android:theme="@style/AppTheme"
+                android:windowSoftInputMode="stateHidden|adjustNothing" />
 
         <activity
-            android:name=".popups.NumberSides"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateHidden|adjustNothing" />
+                android:name=".popups.TargetOptions"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:label="@string/app_name"
+                android:theme="@style/AppTheme"
+                android:windowSoftInputMode="stateHidden|adjustNothing" />
 
         <activity
-            android:name=".popups.TargetOptions"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateHidden|adjustNothing" />
+                android:name=".popups.PowersRoots"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:label="@string/app_name"
+                android:theme="@style/AppTheme"
+                android:windowSoftInputMode="stateHidden|adjustNothing" />
 
         <activity
-            android:name=".popups.PowersRoots"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateHidden|adjustNothing" />
+                android:name=".popups.HideSolutions"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:label="@string/app_name"
+                android:theme="@style/AppTheme"
+                android:windowSoftInputMode="stateHidden|adjustNothing" />
 
         <activity
-            android:name=".popups.HideSolutions"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateHidden|adjustNothing" />
-
-        <activity
-            android:name=".popups.Rules"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateHidden|adjustNothing">
+                android:name=".popups.Rules"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:label="@string/app_name"
+                android:theme="@style/AppTheme"
+                android:windowSoftInputMode="stateHidden|adjustNothing">
         </activity>
-    </application>
 
+    </application>
 </manifest>

@@ -66,7 +66,7 @@
                 style="@style/infoImageFull"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/powerOffText"
-                app:srcCompat="@drawable/powers_off_main" />
+                app:srcCompat="@drawable/level_powers_main" />
 
             <TextView
                 style="@style/infoText"

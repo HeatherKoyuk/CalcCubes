@@ -8,7 +8,7 @@ import kotlinx.coroutines.channels.actor
 import java.util.*
 import java.util.concurrent.Executors
 
-class Calculate(private val answerListMaxSize: Int, private val allowPowers: Boolean, private val target: Int) {
+class Calculate(private val answerListMaxSize: Int, private val level: Int, private val target: Int) {
 
     private val threadPool = Executors.newCachedThreadPool().asCoroutineDispatcher()
 
@@ -127,17 +127,21 @@ class Calculate(private val answerListMaxSize: Int, private val allowPowers: Boo
 
         results.add(Add.getOrCreate(equation0, equation1))
         results.add(Subtract.getOrCreate(equation0, equation1))
-        results.add(Multiply.getOrCreate(equation0, equation1))
-        results.add(Divide.getOrCreate(equation0, equation1))
-        if (allowPowers) {
+        if(level > 0) {
+            results.add(Multiply.getOrCreate(equation0, equation1))
+            results.add(Divide.getOrCreate(equation0, equation1))
+        }
+        if (level > 1) {
             results.add(PowerOf.getOrCreate(equation0, equation1))
             results.add(RootOf.getOrCreate(equation0, equation1))
         }
 
         if (equation0.equationString != equation1.equationString) {
             results.add(Subtract.getOrCreate(equation1, equation0))
-            results.add(Divide.getOrCreate(equation1, equation0))
-            if (allowPowers) {
+            if(level > 0) {
+                results.add(Divide.getOrCreate(equation1, equation0))
+            }
+            if (level > 1) {
                 results.add(PowerOf.getOrCreate(equation1, equation0))
                 results.add(RootOf.getOrCreate(equation1, equation0))
             }

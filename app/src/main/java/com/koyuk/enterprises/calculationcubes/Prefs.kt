@@ -2,6 +2,7 @@ package com.koyuk.enterprises.calculationcubes
 
 import android.content.Context
 import android.content.SharedPreferences
+import java.util.*
 
 
 class Prefs(context: Context) {
@@ -13,8 +14,8 @@ class Prefs(context: Context) {
     private val numOfDiceDefault = 3
     private val numOfSidesPref = "num_sides_pref"
     private var numOfSidesDefault = 6
-    private val allowPowersPref = "allow_powers_pref"
-    private var allowPowersDefault = true
+    private val levelPref = "allow_powers_pref"
+    private var levelDefault = 2
     private val hideSolutionsPref = "hide_solutions_pref"
     private var hideSolutionsDefault = true
     private val solutionsCheckedPref = "solutions_checked_pref"
@@ -35,6 +36,11 @@ class Prefs(context: Context) {
     private var multiplyNumDiceDefault = 2
     private var multiplyDiceSidesPref = "multiply_dice_sides"
     private var multiplyDiceSidesDefault = 12
+
+    private val blockAdsEndTimeMSPref = "block_ads_end_time_ms"
+    private var blockAdsEndTimeMSDefault: Long = Date().time - 100000
+    private val blockPopupEndTimeMSPref = "block_popup_end_time_ms"
+    private var blockPopupEndTimeMSDefault: Long = Date().time - 100000
 
     private val prefs: SharedPreferences = context.getSharedPreferences(prefsFilename, 0)
 
@@ -84,9 +90,9 @@ class Prefs(context: Context) {
         get() = prefs.getInt(manualMaxTargetPref, manualMaxTargetDefault)
         set(value) = prefs.edit().putInt(manualMaxTargetPref, value).apply()
 
-    var allowPowers: Boolean
-        get() = prefs.getBoolean(allowPowersPref, allowPowersDefault)
-        set(value) = prefs.edit().putBoolean(allowPowersPref, value).apply()
+    var level: Int
+        get() = prefs.getInt(levelPref, levelDefault)
+        set(value) = prefs.edit().putInt(levelPref, value).apply()
 
     var hideSolutions: Boolean
         get() = prefs.getBoolean(hideSolutionsPref, hideSolutionsDefault)
@@ -111,4 +117,12 @@ class Prefs(context: Context) {
     var target: Int
         get() = prefs.getInt(targetPref, targetDefault)
         set(value) = prefs.edit().putInt(targetPref, value).apply()
+
+    var blockAdsEndTime: Date
+        get() = Date(prefs.getLong(blockAdsEndTimeMSPref, blockAdsEndTimeMSDefault))
+        set(value) = prefs.edit().putLong(blockAdsEndTimeMSPref, value.time).apply()
+
+    var blockPopupEndTime: Date
+        get() = Date(prefs.getLong(blockPopupEndTimeMSPref, blockPopupEndTimeMSDefault))
+        set(value) = prefs.edit().putLong(blockPopupEndTimeMSPref, value.time).apply()
 }
