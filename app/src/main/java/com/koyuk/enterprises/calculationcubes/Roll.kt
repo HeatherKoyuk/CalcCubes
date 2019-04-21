@@ -28,6 +28,7 @@ import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.reward.RewardItem
 import com.google.android.gms.ads.reward.RewardedVideoAd
 import com.google.android.gms.ads.reward.RewardedVideoAdListener
+//import com.koyuk.enterprises.calculationcubes.BillingManager.GlobalVariable.hasPro
 import com.koyuk.enterprises.calculationcubes.models.Answer
 import com.koyuk.enterprises.calculationcubes.models.Equation
 import com.koyuk.enterprises.calculationcubes.models.SimpleNumber
@@ -81,6 +82,12 @@ class Roll : AppCompatActivity(), CoroutineScope, OnStartDragListener, OnDiceLis
     private lateinit var mInterstitialAd: InterstitialAd
     private lateinit var mRewardedVideoAd: RewardedVideoAd
     private lateinit var extras: Bundle
+
+    private var isTest = false
+    val interstitialTestAdId = "ca-app-pub-3940256099942544/1033173712"
+    val interstitialReleaseAdId = "ca-app-pub-4140639688578770/2023851391"
+    val videoTestAdId = "ca-app-pub-3940256099942544/5224354917"
+    val videoReleaseAdId = "ca-app-pub-4140639688578770/8774834561"
 
     // private lateinit var binding: RollBinding
 
@@ -207,63 +214,64 @@ class Roll : AppCompatActivity(), CoroutineScope, OnStartDragListener, OnDiceLis
             slideUp()
         }
 
+     //   if(!hasPro) {
+            extras = Bundle()
+            extras.putString("max_ad_content_rating", "G")
 
-        extras = Bundle()
-        extras.putString("max_ad_content_rating", "G")
+            MobileAds.initialize(this, "ca-app-pub-4140639688578770~6032762053")
 
-        MobileAds.initialize(this, "ca-app-pub-4140639688578770~6032762053")
-        mInterstitialAd = InterstitialAd(this)
-        // mInterstitialAd.adUnitId = "ca-app-pub-4140639688578770/2023851391"
-        // use for testing
-        mInterstitialAd.adUnitId = "ca-app-pub-3940256099942544/1033173712"
-        mInterstitialAd.loadAd(AdRequest.Builder()
-                // .addNetworkExtrasBundle(AdMobAdapter::class.java, extras)
-                .build())
-        mInterstitialAd.adListener = object : AdListener() {
-            override fun onAdClosed() {
-                mInterstitialAd.loadAd(AdRequest.Builder()
-                        // .addNetworkExtrasBundle(AdMobAdapter::class.java, extras)
-                        .build())
+            mInterstitialAd = InterstitialAd(this)
+            if (isTest) {
+                mInterstitialAd.adUnitId = interstitialTestAdId
+            } else {
+                mInterstitialAd.adUnitId = interstitialReleaseAdId
             }
-        }
-        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
-        mRewardedVideoAd.rewardedVideoAdListener = this;
-        loadRewardedVideoAd()
+            loadInterstitialAd()
 
-        // Initialize a new instance of alert dialog builder object
-        val builder = AlertDialog.Builder(this)
-
-        // Set a title for alert dialog
-        builder.setTitle("")
-
-        // Set a message for alert dialog
-        builder.setMessage("Do you want to watch a short video to opt out of ads for 2 hours?")
-
-        // On click listener for dialog buttons
-        val dialogClickListener = DialogInterface.OnClickListener { _, which ->
-            when (which) {
-                DialogInterface.BUTTON_POSITIVE -> if (mRewardedVideoAd.isLoaded) {
-                    mRewardedVideoAd.show()
+            mInterstitialAd.adListener = object : AdListener() {
+                override fun onAdClosed() {
+                    loadInterstitialAd()
                 }
-                DialogInterface.BUTTON_NEGATIVE -> if (mInterstitialAd.isLoaded) {
-                    adsDisplayed += 1
-                    mInterstitialAd.show()
-                }
-                DialogInterface.BUTTON_NEUTRAL -> blockPopup()
             }
-        }
+            mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
+            mRewardedVideoAd.rewardedVideoAdListener = this;
+            loadRewardedVideoAd()
 
-        // Set the alert dialog positive/yes button
-        builder.setPositiveButton("YES", dialogClickListener)
+            // Initialize a new instance of alert dialog builder object
+            val builder = AlertDialog.Builder(this)
 
-        // Set the alert dialog negative/no button
-        builder.setNegativeButton("NO", dialogClickListener)
+            // Set a title for alert dialog
+            builder.setTitle("")
 
-        // Set the alert dialog negative/no button
-        builder.setNeutralButton("No, and Do not offer again for 24h", dialogClickListener)
+            // Set a message for alert dialog
+            builder.setMessage("Do you want to watch a short video to opt out of ads for 2 hours?")
 
-        // Initialize the AlertDialog using builder object
-        dialog = builder.create()
+            // On click listener for dialog buttons
+            val dialogClickListener = DialogInterface.OnClickListener { _, which ->
+                when (which) {
+                    DialogInterface.BUTTON_POSITIVE -> if (mRewardedVideoAd.isLoaded) {
+                        mRewardedVideoAd.show()
+                    }
+                    DialogInterface.BUTTON_NEGATIVE -> if (mInterstitialAd.isLoaded) {
+                        adsDisplayed += 1
+                        mInterstitialAd.show()
+                    }
+                    DialogInterface.BUTTON_NEUTRAL -> blockPopup()
+                }
+            }
+
+            // Set the alert dialog positive/yes button
+            builder.setPositiveButton("YES", dialogClickListener)
+
+            // Set the alert dialog negative/no button
+            builder.setNegativeButton("NO", dialogClickListener)
+
+            // Set the alert dialog negative/no button
+            builder.setNeutralButton("No, and Do not offer again for 24h", dialogClickListener)
+
+            // Initialize the AlertDialog using builder object
+            dialog = builder.create()
+     //   }
 
         targetTextEdit.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
@@ -635,26 +643,28 @@ class Roll : AppCompatActivity(), CoroutineScope, OnStartDragListener, OnDiceLis
     private inner class HandleClick : View.OnClickListener {
         override fun onClick(arg0: View) {
             var date = Date()
-            if(prefs!!.blockAdsEndTime < Date()){
-                if (rolls >= rollsBeforeAds) {
-                    rolls = 0
-                    when {
-                        prefs!!.blockPopupEndTime < date && adsDisplayed >= adsBeforeDisplayVideoOption -> {
-                            adsDisplayed = 0
-                            showDialog()
-                        }
-                        mInterstitialAd.isLoaded -> {
-                            if(prefs!!.blockPopupEndTime < date) {
-                                adsDisplayed += 1
+            //if(!hasPro){
+                if(prefs!!.blockAdsEndTime < Date()) {
+                    if (rolls >= rollsBeforeAds) {
+                        rolls = 0
+                        when {
+                            prefs!!.blockPopupEndTime < date && adsDisplayed >= adsBeforeDisplayVideoOption -> {
+                                adsDisplayed = 0
+                                showDialog()
                             }
-                            mInterstitialAd.show()
+                            mInterstitialAd.isLoaded -> {
+                                if (prefs!!.blockPopupEndTime < date) {
+                                    adsDisplayed += 1
+                                }
+                                mInterstitialAd.show()
+                            }
+                            // else -> Log.d("TAG", "The interstitial wasn't loaded yet.")
                         }
-                        // else -> Log.d("TAG", "The interstitial wasn't loaded yet.")
+                    } else {
+                        rolls++
                     }
-                } else {
-                    rolls++
                 }
-            }
+            //}
             if (!rolling) {
                 // TODO: fix this - rolling
                 //              rolling = true
@@ -972,10 +982,30 @@ class Roll : AppCompatActivity(), CoroutineScope, OnStartDragListener, OnDiceLis
         loadRewardedVideoAd()
     }
     private fun loadRewardedVideoAd() {
-        mRewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917", // "ca-app-pub-4140639688578770/8774834561", //
+        if(isTest){
+            mRewardedVideoAd.loadAd(videoTestAdId,
                 AdRequest.Builder()
-                        // .addNetworkExtrasBundle(AdMobAdapter::class.java, extras)
-                        .build())
+                    // .addNetworkExtrasBundle(AdMobAdapter::class.java, extras)// this makes the video ads real for some reason
+                    .build())
+        }
+        else {
+            mRewardedVideoAd.loadAd(videoReleaseAdId,
+                AdRequest.Builder()
+                    .addNetworkExtrasBundle(AdMobAdapter::class.java, extras)
+                    .build()
+            )
+        }
+    }
+    private fun loadInterstitialAd() {
+        if (isTest) {
+            mInterstitialAd.loadAd(AdRequest.Builder()
+                // .addNetworkExtrasBundle(AdMobAdapter::class.java, extras)
+                .build())
+        } else {
+            mInterstitialAd.loadAd(AdRequest.Builder()
+                .addNetworkExtrasBundle(AdMobAdapter::class.java, extras)
+                .build())
+        }
     }
 }
 

@@ -53,7 +53,7 @@
                 style="@style/infoImageFull"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/mainText2"
-                app:srcCompat="@drawable/level_powers_main" />
+                app:srcCompat="@drawable/main_1_2_3_7" />
 
             <TextView
                 android:id="@+id/mainText3"
@@ -71,21 +71,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/mainText3" />
 
-            <TextView
-                android:id="@+id/mainText55"
-                style="@style/infoText"
-                android:text="@string/rules55"
-                android:textColor="@color/lightRed"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mainText5" />
-
             <ImageView
                 android:id="@+id/settings"
                 style="@style/infoImageFull"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mainText55"
+                app:layout_constraintTop_toBottomOf="@+id/mainText5"
                 app:srcCompat="@drawable/settings" />
+
+            <TextView
+                    android:id="@+id/mainText55"
+                    style="@style/infoText"
+                    android:text="@string/rules55"
+                    android:textColor="@color/lightRed"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/settings" />
 
             <TextView
                 android:id="@+id/mainText4"
@@ -93,7 +93,7 @@
                 android:text="@string/rules4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/settings" />
+                app:layout_constraintTop_toBottomOf="@+id/mainText55" />
 
             <TextView
                 android:id="@+id/mainText6"

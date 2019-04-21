@@ -10,6 +10,8 @@ import kotlinx.android.synthetic.main.activity_home.*
 
 class Home : AppCompatActivity() {
 
+    lateinit var billingManager: BillingManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -26,6 +28,11 @@ class Home : AppCompatActivity() {
             val intent = Intent(this, Rules::class.java)
             startActivity(intent)
         }
+//        billingManager = BillingManager(this)
+
+//        pro.setOnClickListener{
+//            billingManager.upgrade(this)
+//        }
     }
 
     override fun onResume() {

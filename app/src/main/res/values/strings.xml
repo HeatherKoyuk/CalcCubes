@@ -72,7 +72,7 @@
         check it again to display the solutions.)</string>
 
     <string name="rules1">Calculation Cubes is a math game. To play, you roll a specified number of dice to get your base numbers, and you use those base numbers in any order with any mathematical operators to come the closest to a randomly selected target number as possible.</string>
-    <string name="rules2">For example, if the dice roll to 1, 2, and 3, and your target number is 7, then 1+(2x3) would be one possible exact solution - and so would 2^3-1. Other solution are listed below:</string>
+    <string name="rules2">For example, if the dice roll to 1, 2, and 3, and your target number is 7, then 1+(2x3) would be one possible exact solution - and so would 2^3-1. Other (less exact) solutions are listed below:</string>
     <string name="rules22">(Scroll down for more)</string>
     <string name="rules3">There may or may not be any exact solutions, depending on the base numbers and the target number selected. The top 500 solutions (or all solutions, if less than 500) are displayed in the Solutions list, ordered by difference between
         the calculated solution and the target number. The list is scrollable.</string>
