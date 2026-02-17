@@ -59,3 +59,8 @@ It was built as a personal challenge to:
 ## Author
 
 Heather Koyuk
+
+## Acknowledgment
+
+CalcCubes is inspired by the MathDice game created by ThinkFun.  
+This project is an independent software implementation and expansion of the game’s mathematical puzzle concept and is not affiliated with or endorsed by ThinkFun.
